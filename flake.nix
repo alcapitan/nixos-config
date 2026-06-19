@@ -1,5 +1,5 @@
 {
-    description = "Configuration NixOS pour mon ordinateur perso";
+    description = "Al Capitan's NixOS configurations repository";
 
     inputs = {
         nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
@@ -17,24 +17,24 @@
 
     outputs = { self, nixpkgs, home-manager, plasma-manager, ... }@inputs: {
         nixosConfigurations = {
+            # Configuration du Laptop
             dell3510 = nixpkgs.lib.nixosSystem {
                 system = "x86_64-linux";
                 modules = [
-                    ./configuration.nix
-
                     home-manager.nixosModules.home-manager
+                    ./common
+                    ./common/users.nix
+                    ./modules/desktop.nix
+                    ./modules/scolaire.nix
+                    ./hosts/laptop/configuration.nix
                     {
                         home-manager.useGlobalPkgs = true;
                         home-manager.useUserPackages = true;
-
-                        home-manager.sharedModules = [
-                            plasma-manager.homeModules.plasma-manager
-                        ];
-
                         home-manager.users.alex = {
                             imports = [
-                                ./home.nix
-                                # ./thunderbird.nix
+                                plasma-manager.homeModules.plasma-manager
+                                ./home/default.nix
+                                ./home/desktop.nix
                             ];
                         };
                     }
