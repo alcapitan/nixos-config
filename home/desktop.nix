@@ -22,6 +22,9 @@
     kdePackages.filelight
     kdePackages.kcalc
     kdePackages.plasma-browser-integration
+    kdePackages.kdepim-runtime
+    kdePackages.kdepim-addons
+    kdePackages.merkuro
     
     # Design / Multimédia
     inkscape

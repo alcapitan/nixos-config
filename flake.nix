@@ -17,7 +17,6 @@
 
     outputs = { self, nixpkgs, home-manager, plasma-manager, ... }@inputs: {
         nixosConfigurations = {
-            # Configuration du Laptop
             dell3510 = nixpkgs.lib.nixosSystem {
                 system = "x86_64-linux";
                 modules = [
@@ -35,6 +34,25 @@
                                 plasma-manager.homeModules.plasma-manager
                                 ./home/default.nix
                                 ./home/desktop.nix
+                            ];
+                        };
+                    }
+                ];
+            };
+
+            vps = nixpkgs.lib.nixosSystem {
+                system = "x86_64-linux";
+                modules = [
+                    home-manager.nixosModules.home-manager
+                    ./common
+                    ./common/users.nix
+                    ./hosts/server/configuration.nix
+                    {
+                        home-manager.useGlobalPkgs = true;
+                        home-manager.useUserPackages = true;
+                        home-manager.users.alex = {
+                            imports = [
+                                ./home/default.nix
                             ];
                         };
                     }

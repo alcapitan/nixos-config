@@ -49,4 +49,15 @@
       };
     };
   };
+
+  systemd.services."borgbackup-job-backup" = {
+    after = [ "network-online.target" ];
+    wants = [ "network-online.target" ];
+  };
+
+  systemd.timers."borgbackup-job-backup" = {
+    timerConfig = {
+      OnBootSec = "3min";
+    };
+  };
 }
