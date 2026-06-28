@@ -33,6 +33,20 @@
   # Profil d'école spécifique
   profilScolaire.enable = false;
 
+  # Swap pour l'hibernation
+  swapDevices = [ {
+    device = "/var/lib/swapfile";
+    size = 32 * 1024; # 32Go
+    priority = 1;
+  } ];
+
+  # Swap ZRAM pour compresser les données en RAM
+  zramSwap = {
+    enable = true;
+    memoryPercent = 50;
+    priority = 100;
+  };
+
   # Montage RAM & Liens symboliques propres au laptop
   fileSystems."/home/alex/tmp" = {
     fsType = "tmpfs";

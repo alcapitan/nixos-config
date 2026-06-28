@@ -29,7 +29,6 @@
     # Design / Multimédia
     inkscape
     gimp
-    yt-dlp
     parabolic
     tagger
     
@@ -39,6 +38,20 @@
     pdftk
     imagemagick
     _7zip-zstd
+  
+    # Self-made commands
+    (pkgs.writeShellScriptBin "ytm-download" ''
+      if [ -z "$1" ]; then
+        echo "Usage: ytdl-music <URL_DE_LA_PLAYLIST>"
+        exit 1
+      fi
+
+      ${pkgs.yt-dlp}/bin/yt-dlp -x --audio-format opus \
+        -o "%(artist)s - %(title)s.%(ext)s" \
+        --add-metadata --embed-thumbnail --ignore-errors \
+        --ppa "ThumbnailsConvertor:-vf crop='ih:ih'" \
+        "$1"
+    '')
   ];
 
   # Configuration spécifique à Plasma (Fond d'écran...)

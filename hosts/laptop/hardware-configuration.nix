@@ -33,12 +33,7 @@
     };
 
   boot.initrd.luks.devices."luks-6a84e605-2b38-4171-a1d6-9cda2a6fd027".device = "/dev/disk/by-uuid/6a84e605-2b38-4171-a1d6-9cda2a6fd027";
-
-  swapDevices = [ {
-    device = "/var/lib/swapfile";
-    size = 32 * 1024; # 32Go
-  }];
-
+  
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 }
