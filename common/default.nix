@@ -29,16 +29,10 @@
   environment.systemPackages = with pkgs; [
     tree
     git
-    vim
     curl
-    wget
-    bash
-    direnv
-    nix-direnv
     fastfetch
     btop
     gnupg
-    zip
-    unzip
+    _7zip-zstd
   ];
 }

@@ -5,7 +5,10 @@
   home.homeDirectory = "/home/alex";
   home.stateVersion = "25.11";
 
-# Configuration du Shell commun
+  programs.direnv.enable = true;
+  programs.direnv.nix-direnv.enable = true;
+
+  # Configuration du Shell commun
   programs.zsh = {
     enable = true;
     enableCompletion = true;

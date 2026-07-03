@@ -45,6 +45,8 @@
     ntfs3g
     pinentry-qt
     kdePackages.bluedevil
+    proton-vpn
+    android-tools
   ];
 
   programs.gnupg.agent = {
