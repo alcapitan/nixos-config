@@ -30,6 +30,8 @@
     tree
     git
     curl
+    fd
+    ripgrep
     fastfetch
     librespeed-cli
     btop
