@@ -47,6 +47,7 @@
     kdePackages.bluedevil
     pkgs-unstable.proton-vpn
     android-tools
+    wl-clipboard
   ];
 
   programs.gnupg.agent = {

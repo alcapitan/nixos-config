@@ -58,5 +58,6 @@
     nix-dry    = "sudo nixos-rebuild dry-activate --flake /home/alex/nixos-config#dell3510";
     nix-boot   = "sudo nixos-rebuild boot --flake /home/alex/nixos-config#dell3510";
     nix-update = "nix flake update --flake /home/alex/nixos-config && sudo nixos-rebuild switch --flake /home/alex/nixos-config#dell3510";
+    nix-audit  = "vulnix --system --show-description";
   };
 }
