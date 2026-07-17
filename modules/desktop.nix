@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, pkgs-unstable, ... }:
 
 {
   # Réseau et Bluetooth
@@ -45,7 +45,7 @@
     ntfs3g
     pinentry-qt
     kdePackages.bluedevil
-    proton-vpn
+    pkgs-unstable.proton-vpn
     android-tools
   ];
 
