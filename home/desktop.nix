@@ -117,7 +117,6 @@
           install_url = "https://addons.mozilla.org/firefox/downloads/latest/darkreader/latest.xpi";
           installation_mode = "force_installed";
         };
-
       };
     };
 
@@ -145,6 +144,7 @@
     };
   };
 
+  /* # TODO
   xdg.mimeApps = {
     enable = true;
     defaultApplications = {
@@ -166,5 +166,5 @@
       "x-scheme-handler/mailto" = [ "userapp-Thunderbird-DL6XQ3.desktop" ];
     };
   };
-  home.preferXdgDirectories = true;
+  home.preferXdgDirectories = true;*/
 }

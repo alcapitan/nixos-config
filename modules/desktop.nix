@@ -50,6 +50,10 @@
     wl-clipboard
   ];
 
+  networking.extraHosts = ''
+    127.1.0.1   alcapitan.local
+  '';
+
   programs.gnupg.agent = {
     enable = true;
     enableSSHSupport = true;

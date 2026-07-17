@@ -23,14 +23,14 @@
 
                 specialArgs = {
                     pkgs-unstable = import nixpkgs-unstable {
-                    system = "x86_64-linux";
+                        system = "x86_64-linux";
                         config.allowUnfree = true;
                     };
                 };
                 
                 modules = [
                     home-manager.nixosModules.home-manager
-                    ./common
+                    ./common/default.nix
                     ./common/users.nix
                     ./modules/desktop.nix
                     ./modules/scolaire.nix
@@ -53,9 +53,10 @@
                 system = "x86_64-linux";
                 modules = [
                     home-manager.nixosModules.home-manager
-                    ./common
+                    ./common/default.nix
                     ./common/users.nix
                     ./hosts/server/configuration.nix
+                    ./hosts/server/services.nix
                     {
                         home-manager.useGlobalPkgs = true;
                         home-manager.useUserPackages = true;
