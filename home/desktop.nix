@@ -40,15 +40,38 @@
     # Self-made commands
     (pkgs.writeShellScriptBin "ytm-download" ''
       if [ -z "$1" ]; then
-        echo "Usage: ytdl-music <URL_DE_LA_PLAYLIST>"
+        echo "Usage: ytm-download <URL_OU_FICHIER.txt>"
         exit 1
       fi
 
-      ${pkgs.yt-dlp}/bin/yt-dlp -x --audio-format opus \
-        -o "%(artist)s - %(title)s.%(ext)s" \
-        --add-metadata --embed-thumbnail --ignore-errors \
-        --ppa "ThumbnailsConvertor:-vf crop='ih:ih'" \
-        "$1"
+      # Si l'argument est un fichier texte existant
+      if [ -f "$1" ]; then
+        echo "Téléchargement à partir du fichier texte : $1"
+        
+        ${pkgs.yt-dlp}/bin/yt-dlp \
+          --batch-file "$1" \
+          --default-search "ytsearch1" \
+          -f "ba[ext=webm]/ba" \
+          --extract-audio \
+          --audio-format opus \
+          -o "%(artist,uploader)s - %(title)s.%(ext)s" \
+          --add-metadata \
+          --embed-thumbnail \
+          --ppa "ThumbnailsConvertor:-vf crop='ih:ih'" \
+          --ignore-errors
+      else
+        # Si c'est une URL directe (playlist ou vidéo)
+        ${pkgs.yt-dlp}/bin/yt-dlp \
+          -f "ba[ext=webm]/ba" \
+          --extract-audio \
+          --audio-format opus \
+          -o "%(artist,uploader)s - %(title)s.%(ext)s" \
+          --add-metadata \
+          --embed-thumbnail \
+          --ppa "ThumbnailsConvertor:-vf crop='ih:ih'" \
+          --ignore-errors \
+          "$1"
+      fi
     '')
   ];
 
