@@ -16,24 +16,49 @@
         ports = [ "127.0.0.1:8081:80" ];
         extraOptions = [ "--pull=always" ]; # Met à jour à chaque redémarrage
       };
+
+      adguardhome = {
+        image = "adguard/adguardhome:latest";
+        ports = [
+          "53:53/tcp"             # DNS
+          "53:53/udp"             # DNS
+          "127.0.0.1:8083:3000"   # Interface de configuration initiale
+          "127.0.0.1:8084:80"     # Interface d'administration après setup
+        ];
+        volumes = [
+          "/var/lib/srv/adguardhome/work:/opt/adguardhome/work"
+          "/var/lib/srv/adguardhome/conf:/opt/adguardhome/conf"
+        ];
+        extraOptions = [ "--pull=always" ];
+      };
     };
   };
 
-  # Reverse proxy (avec HTTPS automatique)
+  # Reverse proxy pour production
   services.caddy = {
     enable = true;
     
     virtualHosts = {
-      "alcapitan.local, www.alcapitan.me" = {
-        extraConfig = ''
-          reverse_proxy 127.0.0.1:8081
-        '';
-      };
+      "alcapitan.me".extraConfig = "reverse_proxy 127.0.0.1:8081";
+      "git.alcapitan.me".extraConfig = "reverse_proxy 127.0.0.1:8082";
+      "initial.dns.alcapitan.me".extraConfig = "reverse_proxy 127.0.0.1:8083";
+      "dns.alcapitan.me".extraConfig = "reverse_proxy 127.0.0.1:8084";
+    };
+  };
 
-      "http://git.alcapitan.local, http://git.alcapitan.me" = {
-        extraConfig = ''
-          reverse_proxy 127.0.0.1:8082
-        '';
+  # Surcharge caddy pour l'environnement de test en machine virtuelle
+  virtualisation.vmVariant = {
+    services.caddy = {
+      globalConfig = ''
+        auto_https off
+      '';
+      
+      # Réécriture des virtualHosts pour le développement local
+      virtualHosts = {
+        "http://alcapitan.local".extraConfig = "reverse_proxy 127.0.0.1:8081";
+        "http://git.alcapitan.local".extraConfig = "reverse_proxy 127.0.0.1:8082";
+        "http://initial.dns.alcapitan.local".extraConfig = "reverse_proxy 127.0.0.1:8083";
+        "http://dns.alcapitan.local".extraConfig = "reverse_proxy 127.0.0.1:8084";
       };
     };
   };
