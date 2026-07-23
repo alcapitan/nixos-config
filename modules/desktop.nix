@@ -81,11 +81,12 @@
       forward-zone = [
         {
           name = ".";
-          forward-tls-upstream = true;
           forward-addr = [
+            "127.1.0.1@5353"
             "1.1.1.1@853#cloudflare-dns.com"
             "1.0.0.1@853#cloudflare-dns.com"
           ];
+          forward-first = true;
         }
       ];
     };
