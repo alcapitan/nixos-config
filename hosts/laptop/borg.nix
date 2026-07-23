@@ -32,7 +32,7 @@
       passCommand = "cat /var/lib/secrets/borg-repo-password";
     };
 
-    compression = "auto,lzma";
+    compression = "auto,zstd,6";
     startAt = "daily";
 
     postHook = ''
