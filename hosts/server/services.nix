@@ -31,6 +31,18 @@
         ];
         extraOptions = [ "--pull=always" ];
       };
+
+      radicale = {
+        image = "tomsquest/docker-radicale:latest";
+        ports = [
+          "127.0.0.1:8085:5232"
+        ];
+        volumes = [
+          "/var/lib/srv/radicale/data:/data"
+          "/var/lib/srv/radicale/config:/config:ro"
+        ];
+        extraOptions = [ "--pull=always" ];
+      };
     };
   };
 
@@ -43,6 +55,7 @@
       "git.alcapitan.me".extraConfig = "reverse_proxy 127.0.0.1:8082";
       "initial.dns.alcapitan.me".extraConfig = "reverse_proxy 127.0.0.1:8083";
       "dns.alcapitan.me".extraConfig = "reverse_proxy 127.0.0.1:8084";
+      "dav.alcapitan.me".extraConfig = "reverse_proxy 127.0.0.1:8085";
     };
   };
 
@@ -59,6 +72,7 @@
         "http://git.alcapitan.local".extraConfig = "reverse_proxy 127.0.0.1:8082";
         "http://initial.dns.alcapitan.local".extraConfig = "reverse_proxy 127.0.0.1:8083";
         "http://dns.alcapitan.local".extraConfig = "reverse_proxy 127.0.0.1:8084";
+        "http://dav.alcapitan.local".extraConfig = "reverse_proxy 127.0.0.1:8085";
       };
     };
   };

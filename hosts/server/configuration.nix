@@ -95,5 +95,8 @@
   systemd.tmpfiles.rules = [
     "d /var/lib/srv/adguardhome/work 0755 root root -"
     "d /var/lib/srv/adguardhome/conf 0755 root root -"
+    "d /var/lib/srv/radicale/data 0770 2999 2999 -" # radicale user uid
+    "d /var/lib/srv/radicale/config 0755 root root -"
+    ''f+ /var/lib/srv/radicale/config/config 0644 root root - [server]\nhosts = 0.0.0.0:5232\n\n[storage]\ntype = multifilesystem\nfilesystem_folder = /data/collections\n\n[auth]\ntype = htpasswd\nhtpasswd_filename = /config/users\nhtpasswd_encryption = bcrypt\n''
   ];
 }
