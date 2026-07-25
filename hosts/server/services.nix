@@ -39,7 +39,7 @@
       };
 
       adguardhome = {
-        image = "adguard/adguardhome:latest";
+        image = "adguard/adguardhome:latest"; # TODO: version fixe à définir pour chaque service ! et avoir un controleur de version obsolète pour les containers podman
         ports = [
           "53:53/tcp"             # DNS
           "53:53/udp"             # DNS
@@ -66,6 +66,7 @@
       };
     };
   };
+  # TODO: il faudrait voir de migrer la data des services vers la storage box...
 
   # Reverse proxy pour production
   services.caddy = {
@@ -88,7 +89,7 @@
       '';
       
       # Réécriture des virtualHosts pour le développement local
-      virtualHosts = {
+      virtualHosts = pkgs.lib.mkForce {
         "http://alcapitan.local".extraConfig = "reverse_proxy 127.0.0.1:8081";
         "http://git.alcapitan.local".extraConfig = "reverse_proxy 127.0.0.1:8082";
         "http://initial.dns.alcapitan.local".extraConfig = "reverse_proxy 127.0.0.1:8083";
