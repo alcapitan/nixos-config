@@ -25,6 +25,7 @@
         { from = "host"; host.address = "127.1.0.1"; host.port = 8000; guest.port = 80; }
         { from = "host"; host.address = "127.1.0.1"; host.port = 8443; guest.port = 443; }
         { from = "host"; host.address = "127.1.0.1"; host.port = 2222; guest.port = 2222; }
+        { from = "host"; host.address = "127.1.0.1"; host.port = 2223; guest.port = 22; }
         { proto = "tcp"; from = "host"; host.address = "127.1.0.1"; host.port = 5353; guest.port = 53; }
         { proto = "udp"; from = "host"; host.address = "127.1.0.1"; host.port = 5353; guest.port = 53; }
       ];
@@ -34,7 +35,8 @@
   networking.firewall = {
     enable = true;
     allowedTCPPorts = [ 
-      2222
+      2222 # ssh authentification
+      22 # ssh forjego
       80
       443
       53 # Adguard DNS
@@ -98,5 +100,6 @@
     "d /var/lib/srv/radicale/data 0770 2999 2999 -" # radicale user uid
     "d /var/lib/srv/radicale/config 0755 root root -"
     ''f+ /var/lib/srv/radicale/config/config 0644 root root - [server]\nhosts = 0.0.0.0:5232\n\n[storage]\ntype = multifilesystem\nfilesystem_folder = /data/collections\n\n[auth]\ntype = htpasswd\nhtpasswd_filename = /config/users\nhtpasswd_encryption = bcrypt\n''
+    "d /var/lib/srv/forgejo/data 0755 1082 1082 -" # uid de git dans forjego
   ];
 }
