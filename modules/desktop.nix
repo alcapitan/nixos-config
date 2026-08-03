@@ -1,6 +1,10 @@
-{ pkgs, config, lib, ... }:
+{ pkgs, ... }:
 
 {
+  imports = [
+    ./dns.nix
+  ];
+
   # Réseau et Bluetooth
   networking.networkmanager.enable = true;
   hardware.bluetooth.enable = true;
@@ -69,37 +73,4 @@
     enable = true;
     openFirewall = true;
   };
-
-  # Résolveur DNS local
-  services.unbound = {
-    enable = true;
-    settings = {
-      server = {
-        local-zone = [ "\"alcapitan.local.\" redirect" ];
-        local-data = [
-          "\"alcapitan.local. IN A 127.1.0.1\""
-        ];
-
-        cache-min-ttl = 3600;          # Garde en mémoire minimum 1h quand c'est possible
-        cache-max-ttl = 86400;         # Cache maximum de 24h
-        prefetch = true;               # Rafraîchit automatiquement les domaines populaires avant qu'ils n'expirent
-        prefetch-key = true;           # Accélère les requêtes DNSSEC
-        msg-cache-size = "16m";        # Taille du cache des messages
-        rrset-cache-size = "32m";      # Taille du cache des enregistrements
-      };
-
-      forward-zone = [
-        {
-          name = ".";
-          forward-addr = [
-            "127.1.0.1@5353"
-            "1.1.1.1@853#cloudflare-dns.com"
-            "1.0.0.1@853#cloudflare-dns.com"
-          ];
-          forward-first = true;
-        }
-      ];
-    };
-  };
-  networking.nameservers = [ "127.0.0.1" ]; #! attention un wifi restreignant fermement les ports peut bloquer le dns, donc commenter cette ligne si besoin
 }
