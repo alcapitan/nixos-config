@@ -70,15 +70,11 @@
 
   # Restreindre la visibilité des processus (hidepid=2)
   security.protectKernelImage = true;
-  fileSystems."/proc" = { # TODO: à supprimer ou remanier
+  /*fileSystems."/proc" = { # TODO: à supprimer ou remanier
     device = "proc";
     fsType = "proc";
     options = [ "nosuid" "nodev" "noexec" "hidepid=2" ];
-  };
-
-  fileSystems."/" = {
-    options = [ "defaults" "usrquota" ];
-  };
+  };*/
 
   system.autoUpgrade = {
     enable = true;
@@ -102,4 +98,21 @@
     ''f+ /var/lib/srv/radicale/config/config 0644 root root - [server]\nhosts = 0.0.0.0:5232\n\n[storage]\ntype = multifilesystem\nfilesystem_folder = /data/collections\n\n[auth]\ntype = htpasswd\nhtpasswd_filename = /config/users\nhtpasswd_encryption = bcrypt\n'' # TODO: à remanier dans un fichier
     "d /var/lib/srv/forgejo/data 0755 1082 1082 -" # uid de git dans forjego
   ];
+
+  /* # quotas
+
+  fileSystems."/" = {
+    options = [ "defaults" "usrquota" ];
+  };
+
+  security.pam.loginLimits = [
+    { domain = "*"; type = "soft"; item = "nproc"; value = "100"; } # pas plus de 100 processus par user
+    { domain = "*"; type = "hard"; item = "nproc"; value = "300"; } # pas plus de 300 processus par user
+    { domain = "*"; type = "soft"; item = "fsize"; value = "3145728"; } # taille max fichier 3 Go
+    { domain = "*"; type = "hard"; item = "fsize"; value = "6291456"; } # taille max fichier 6 Go
+    { domain = "*"; type = "hard"; item = "memlock"; value = "524288"; } # pas plus de 512Mo RAM par user
+    { domain = "*"; type = "hard"; item = "cpu"; value = "30"; } # pas plus de 30 minutes de CPU
+    { domain = "root"; type = "hard"; item = "nproc"; value = "unlimited"; } # désactive restriction processus pour root
+    { domain = "root"; type = "soft"; item = "nproc"; value = "unlimited"; }
+  ];*/
 }
