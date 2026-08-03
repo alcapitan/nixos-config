@@ -18,7 +18,7 @@
     doInit = false;
 
     environment.BORG_RSH = "ssh -i /var/lib/secrets/borg-ssh-key";
-    extraCreateArgs = "--exclude-from /home/alex/.borg-exclude";
+    extraCreateArgs = "--verbose --stats --exclude-from /home/alex/.borg-exclude";
 
     paths = [
       "/home"
@@ -48,6 +48,7 @@
         monthly = 6;
       };
     };
+    extraPruneArgs = "--verbose --list";
   };
 
   systemd.services."borgbackup-job-backup" = {
