@@ -50,8 +50,6 @@
                     ./common/default.nix
                     ./common/users.nix
                     ./hosts/server/configuration.nix
-                    ./hosts/server/services.nix
-                    # ./hosts/server/borg.nix
                     {
                         home-manager.useGlobalPkgs = true;
                         home-manager.useUserPackages = true;
