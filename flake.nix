@@ -3,7 +3,7 @@
 
     inputs = {
         nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
-        nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+        sops-nix.url = "github:Mic92/sops-nix";
 
         home-manager = {
             url = "github:nix-community/home-manager/release-26.05";
@@ -16,18 +16,11 @@
         };
     };
 
-    outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, plasma-manager, ... }@inputs: {
+    outputs = { self, nixpkgs, sops-nix, home-manager, plasma-manager, ... }@inputs: {
         nixosConfigurations = {
             dell3510 = nixpkgs.lib.nixosSystem {
                 system = "x86_64-linux";
 
-                specialArgs = {
-                    pkgs-unstable = import nixpkgs-unstable {
-                        system = "x86_64-linux";
-                        config.allowUnfree = true;
-                    };
-                };
-                
                 modules = [
                     home-manager.nixosModules.home-manager
                     ./common/default.nix
@@ -52,6 +45,7 @@
             vps = nixpkgs.lib.nixosSystem {
                 system = "x86_64-linux";
                 modules = [
+                    # sops-nix.nixosModules.sops
                     home-manager.nixosModules.home-manager
                     ./common/default.nix
                     ./common/users.nix
