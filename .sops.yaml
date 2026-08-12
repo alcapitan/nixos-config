@@ -1,0 +1,16 @@
+# .sops.yaml
+creation_rules:
+  - path_regex: hosts/server/secrets\.yaml$
+    key_groups:
+      - pgp: 
+          - "17301109DA7684605B5820CD4CA4D08247638EA0" # personnal gpg key
+        age:
+          - "age1xs5kqasgcl63p206quxgvuc6muajlsskl9muvkscq09nzhy0u9lq6fvslv" # server test with system's key
+          - "age1d7py5m66v4tvccfg7m8494m93lm8z0nltjm6cj46q3vx5j5cdecqr3hs97" # secours
+
+  - path_regex: hosts/laptop/.*\.yaml$
+    key_groups:
+      - pgp: 
+          - "17301109DA7684605B5820CD4CA4D08247638EA0" # personnal gpg key
+        age: 
+          - "age1d7py5m66v4tvccfg7m8494m93lm8z0nltjm6cj46q3vx5j5cdecqr3hs97" # secours

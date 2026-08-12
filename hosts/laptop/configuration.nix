@@ -4,6 +4,7 @@
   imports = [
     ./hardware-configuration.nix
     ./borg.nix
+    ./wifi.nix
   ];
 
   networking.hostName = "dell3510";

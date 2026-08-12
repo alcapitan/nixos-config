@@ -18,51 +18,65 @@
         };
     };
 
-    outputs = { self, nixpkgs, sops-nix, home-manager, plasma-manager, ... }@inputs: {
-        nixosConfigurations = {
-            dell3510 = nixpkgs.lib.nixosSystem {
-                system = "x86_64-linux";
-
-                modules = [
-                    home-manager.nixosModules.home-manager
-                    ./common/default.nix
-                    ./common/users.nix
-                    ./modules/desktop.nix
-                    ./modules/scolaire.nix
-                    ./hosts/laptop/configuration.nix
-                    {
-                        home-manager.useGlobalPkgs = true;
-                        home-manager.useUserPackages = true;
-                        home-manager.users.alex = {
-                            imports = [
-                                plasma-manager.homeModules.plasma-manager
-                                ./home/default.nix
-                                ./home/desktop.nix
-                            ];
-                        };
-                    }
+    outputs = { self, nixpkgs, sops-nix, home-manager, plasma-manager, ... }@inputs:
+        let
+            system = "x86_64-linux";
+            pkgs = nixpkgs.legacyPackages.${system};
+        in
+        {
+            devShells.${system}.default = pkgs.mkShell {
+                packages = with pkgs; [
+                    sops
+                    age
+                    ssh-to-age
                 ];
             };
 
-            vps = nixpkgs.lib.nixosSystem {
-                system = "x86_64-linux";
-                modules = [
-                    # sops-nix.nixosModules.sops
-                    home-manager.nixosModules.home-manager
-                    ./common/default.nix
-                    ./common/users.nix
-                    ./hosts/server/configuration.nix
-                    {
-                        home-manager.useGlobalPkgs = true;
-                        home-manager.useUserPackages = true;
-                        home-manager.users.alex = {
-                            imports = [
-                                ./home/default.nix
-                            ];
-                        };
-                    }
-                ];
+            nixosConfigurations = {
+                dell3510 = nixpkgs.lib.nixosSystem {
+                    system = "x86_64-linux";
+
+                    modules = [
+                        sops-nix.nixosModules.sops
+                        home-manager.nixosModules.home-manager
+                        ./common/default.nix
+                        ./common/users.nix
+                        ./modules/desktop.nix
+                        ./modules/scolaire.nix
+                        ./hosts/laptop/configuration.nix
+                        {
+                            home-manager.useGlobalPkgs = true;
+                            home-manager.useUserPackages = true;
+                            home-manager.users.alex = {
+                                imports = [
+                                    plasma-manager.homeModules.plasma-manager
+                                    ./home/default.nix
+                                    ./home/desktop.nix
+                                ];
+                            };
+                        }
+                    ];
+                };
+
+                vps = nixpkgs.lib.nixosSystem {
+                    system = "x86_64-linux";
+                    modules = [
+                        # sops-nix.nixosModules.sops
+                        home-manager.nixosModules.home-manager
+                        ./common/default.nix
+                        ./common/users.nix
+                        ./hosts/server/configuration.nix
+                        {
+                            home-manager.useGlobalPkgs = true;
+                            home-manager.useUserPackages = true;
+                            home-manager.users.alex = {
+                                imports = [
+                                    ./home/default.nix
+                                ];
+                            };
+                        }
+                    ];
+                };
             };
         };
-    };
 }
