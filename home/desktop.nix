@@ -10,7 +10,7 @@
     libreoffice-qt-fresh
     vlc
     vscode #! deprecated
-    # vscodium
+    # vscodium ou zed
     beeper
     discord
     proton-authenticator
@@ -104,8 +104,8 @@
       "MonProfil" = {
         name = "MonProfil";
         font = {
-          name = "JetBrainsMono Nerd Font";
-          size = 12;
+          name = "Liberation Mono";
+          size = 14;
         };
       };
     };
@@ -116,8 +116,8 @@
     enable = true;
     editor.brackets.automaticallyAddClosing = false;
     editor.font = {
-      family = "JetBrainsMono Nerd Font";
-      pointSize = 12;
+      family = "Liberation Mono";
+      pointSize = 14;
     };
   };
 

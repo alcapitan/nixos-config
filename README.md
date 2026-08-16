@@ -2,7 +2,7 @@
 
 This repository contains my declarative NixOS configurations for:
 - 💻 **Laptop:** Dell Latitude 3510
-- 🌐 **VPS:** Remote server (currently building in a `nix-build` environment)
+- 🌐 **VPS:** Remote server (currently building in a `nix build` environment)
 - 🖥️ **Desktop:** Planned
 
 ## 🛠️ Custom Workflow Commands
