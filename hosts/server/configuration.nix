@@ -5,6 +5,7 @@
     # ./hardware-configuration.nix
     ./test_env.nix
     ./services.nix
+    ./storage.nix
     # ./borg.nix
   ];
 

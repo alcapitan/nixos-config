@@ -61,7 +61,7 @@
                 vps = nixpkgs.lib.nixosSystem {
                     system = "x86_64-linux";
                     modules = [
-                        # sops-nix.nixosModules.sops
+                        sops-nix.nixosModules.sops
                         home-manager.nixosModules.home-manager
                         ./common/default.nix
                         ./common/users.nix
