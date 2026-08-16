@@ -73,4 +73,6 @@
     enable = true;
     openFirewall = true;
   };
+
+  environment.etc."wallpaper.jpg".source = ../assets/wallpaper.jpg;
 }
