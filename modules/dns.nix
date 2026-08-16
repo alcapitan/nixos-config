@@ -11,6 +11,7 @@
         local-zone = [ "\"alcapitan.local.\" redirect" ];
         local-data = [ "\"alcapitan.local. IN A 127.1.0.1\"" ];
 
+        /* # TODO: fix dns
         # Prevent IPv6 timeouts if IPv6 isn't fully routed locally
         ip-ipv6 = false; # Set to true ONLY if you have working native IPv6
 
@@ -35,9 +36,10 @@
         neg-cache-size = "16m";
         infra-cache-numhosts = 10000;
         cache-max-negative-ttl = 3600;
+        */
       };
 
-      forward-zone = [
+      /* forward-zone = [
         {
           name = ".";
           forward-tls-upstream = true; # Explicitly inform Unbound to use TLS for this zone
@@ -47,11 +49,12 @@
           ];
           forward-first = false; # Set to false if you strictly want Cloudflare over TLS
         }
-      ];
+      ];*/
     };
   };
   # networking.nameservers = [ "127.0.0.1" ]; #! attention un wifi restreignant fermement les ports peut bloquer le dns, donc commenter cette ligne si besoin
 
+  /*
   # Activer le fichier de sauvegarde du cache
   systemd.services.unbound-cache-persistence = {
     description = "Sauvegarde et Restauration du cache Unbound";
@@ -73,4 +76,5 @@
       '';
     };
   };
+  */
 }
