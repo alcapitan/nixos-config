@@ -48,6 +48,7 @@
                         {
                             home-manager.useGlobalPkgs = true;
                             home-manager.useUserPackages = true;
+                            home-manager.backupFileExtension = "backup";
                             home-manager.users.alex = {
                                 imports = [
                                     plasma-manager.homeModules.plasma-manager

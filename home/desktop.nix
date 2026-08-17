@@ -267,7 +267,8 @@
     };
   };
 
-  /* # TODO
+  # Applications par défaut
+  #* cat ~/.config/mimeapps.list
   xdg.mimeApps = {
     enable = true;
     defaultApplications = {
@@ -286,8 +287,12 @@
       "x-scheme-handler/unknown" = [ "librewolf.desktop" ];
       "x-scheme-handler/beeper" = [ "beepertexts.desktop" ];
       "x-scheme-handler/geo" = [ "openstreetmap-geo-handler.desktop" ];
-      "x-scheme-handler/mailto" = [ "userapp-Thunderbird-DL6XQ3.desktop" ];
+      "x-scheme-handler/mailto" = [ "userapp-Thunderbird-CMC7R3.desktop" ];
+      "x-scheme-handler/mid" = [ "userapp-Thunderbird-CMC7R3.desktop" ];
+      "message/rfc822" = [ "userapp-Thunderbird-CMC7R3.desktop" ];
     };
   };
-  home.preferXdgDirectories = true;*/
+  home.preferXdgDirectories = true;
+  xdg.configFile."mimeapps.list".force = true; #! destructif ; rm ~/.config/mimeapps.list
+  xdg.dataFile."applications/mimeapps.list".force = true;
 }
