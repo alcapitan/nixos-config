@@ -43,6 +43,7 @@
                         ./common/users.nix
                         ./modules/desktop.nix
                         ./modules/scolaire.nix
+                        ./modules/gaming.nix
                         ./hosts/laptop/configuration.nix
                         {
                             home-manager.useGlobalPkgs = true;
