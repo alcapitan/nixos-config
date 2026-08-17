@@ -295,4 +295,7 @@
   home.preferXdgDirectories = true;
   xdg.configFile."mimeapps.list".force = true; #! destructif ; rm ~/.config/mimeapps.list
   xdg.dataFile."applications/mimeapps.list".force = true;
+
+  # Démarrage automatique d'application au démarrage de la session user
+  xdg.configFile."autostart/proton.vpn.app.gtk.desktop".source = "${pkgs.proton-vpn}/share/applications/proton.vpn.app.gtk.desktop";
 }
