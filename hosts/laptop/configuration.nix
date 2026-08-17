@@ -55,10 +55,6 @@
     options = [ "size=4G" "mode=750" "uid=1000" ];
   };
 
-  systemd.tmpfiles.rules = [
-    "L+ /etc/nixos - - - - /home/alex/nixos-config"
-  ];
-
   # Rétention / Garbage Collector
   nix.gc = {
     automatic = true;

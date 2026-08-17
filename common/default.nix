@@ -79,4 +79,8 @@
       fi
     '')
   ];
+
+  systemd.tmpfiles.rules = [
+    "L+ /home/alex/nixos-config - - - - /etc/nixos"
+  ];
 }
