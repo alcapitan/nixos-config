@@ -31,6 +31,18 @@
         email = "alexandre.boyer29@gmail.com"; 
       };
     };
+    signing = {
+      key = "17301109DA7684605B5820CD4CA4D08247638EA0";
+      signByDefault = true;
+    };
+  };
+  programs.delta = { # Meilleur diff pour git
+    enable = true;
+    options = {
+      navigate = true;
+      line-numbers = true;
+      side-by-side = true;
+    };
   };
 
   # Accès SSH commun vers le stockage Borg
