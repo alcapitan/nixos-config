@@ -1,6 +1,10 @@
 { pkgs, ... }:
 
 {
+  imports = [
+    ./users.nix
+  ];
+
   # Fonctionnalités expérimentales (Flakes)
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   nix.channel.enable = false;

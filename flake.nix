@@ -40,10 +40,8 @@
                         sops-nix.nixosModules.sops
                         home-manager.nixosModules.home-manager
                         ./common/default.nix
-                        ./common/users.nix
+                        ./modules/dns.nix
                         ./modules/desktop.nix
-                        ./modules/scolaire.nix
-                        ./modules/gaming.nix
                         ./hosts/laptop/configuration.nix
                         {
                             home-manager.useGlobalPkgs = true;
@@ -66,11 +64,11 @@
                         sops-nix.nixosModules.sops
                         home-manager.nixosModules.home-manager
                         ./common/default.nix
-                        ./common/users.nix
                         ./hosts/server/configuration.nix
                         {
                             home-manager.useGlobalPkgs = true;
                             home-manager.useUserPackages = true;
+                            home-manager.backupFileExtension = "backup";
                             home-manager.users.alex = {
                                 imports = [
                                     ./home/default.nix

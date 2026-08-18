@@ -2,7 +2,8 @@
 
 {
   imports = [
-    ./dns.nix
+    ./scolaire.nix
+    ./gaming.nix
   ];
 
   # Réseau et Bluetooth
