@@ -64,6 +64,21 @@
         ];
         extraOptions = [ "--pull=always" ];
       };
+
+      vaultwarden = {
+        image = "vaultwarden/server:latest"; 
+        ports = [
+          "127.0.0.1:8086:80"
+        ];
+        volumes = [
+          "/var/lib/srv/vaultwarden/data:/data"
+        ];
+        environment = {
+          "DOMAIN" = "https://vault.alcapitan.me";
+          "SIGNUPS_ALLOWED" = "true"; # à repasser à "false" une fois ton compte créé
+        };
+        extraOptions = [ "--pull=always" ];
+      };
     };
   };
   # TODO: il faudrait voir de migrer la data des services vers la storage box...
@@ -78,6 +93,7 @@
       "initial.dns.alcapitan.me".extraConfig = "reverse_proxy 127.0.0.1:8083";
       "dns.alcapitan.me".extraConfig = "reverse_proxy 127.0.0.1:8084";
       "dav.alcapitan.me".extraConfig = "reverse_proxy 127.0.0.1:8085";
+      "vault.alcapitan.me".extraConfig = "reverse_proxy 127.0.0.1:8086";
     };
   };
 
@@ -85,7 +101,7 @@
   virtualisation.vmVariant = {
     services.caddy = {
       globalConfig = ''
-        auto_https off
+        auto_https disable_redirects
       '';
       
       # Réécriture des virtualHosts pour le développement local
@@ -95,6 +111,11 @@
         "http://initial.dns.alcapitan.local".extraConfig = "reverse_proxy 127.0.0.1:8083";
         "http://dns.alcapitan.local".extraConfig = "reverse_proxy 127.0.0.1:8084";
         "http://dav.alcapitan.local".extraConfig = "reverse_proxy 127.0.0.1:8085";
+        "https://vault.alcapitan.local".extraConfig = ''
+          tls internal
+          reverse_proxy 127.0.0.1:8086
+        ''; # parce que HTTPS obligatoire
+        #* certificat HTTPS autosigné Caddy: /var/lib/caddy/.local/share/caddy/pki/authorities/local/root.crt
       };
     };
   };

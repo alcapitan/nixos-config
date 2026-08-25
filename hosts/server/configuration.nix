@@ -81,6 +81,7 @@
     "d /var/lib/srv/radicale/config 0755 root root -"
     ''f+ /var/lib/srv/radicale/config/config 0644 root root - [server]\nhosts = 0.0.0.0:5232\n\n[storage]\ntype = multifilesystem\nfilesystem_folder = /data/collections\n\n[auth]\ntype = htpasswd\nhtpasswd_filename = /config/users\nhtpasswd_encryption = bcrypt\n'' # TODO: à remanier dans un fichier
     "d /var/lib/srv/forgejo/data 0755 1082 1082 -" # uid de git dans forjego
+    "d /var/lib/srv/vaultwarden/data 0755 root root -"
   ];
 
   /* # quotas
