@@ -12,20 +12,20 @@
   networking.hostName = "vps";
   networking.useDHCP = true;
   system.stateVersion = "25.11";
-  
+
   console.earlySetup = true;
   boot.kernelParams = [ "numlock=on" ];
 
   networking.firewall = {
     enable = true;
-    allowedTCPPorts = [ 
+    allowedTCPPorts = [
       2222 # ssh authentification
       22 # ssh forjego
       80
       443
       53 # Adguard DNS
     ];
-    allowedUDPPorts = [ 
+    allowedUDPPorts = [
       443 # pour Cloudflare et HTTP3 # TODO: à déprécier ?
       53 # Adguard DNS
     ];
@@ -86,6 +86,8 @@
 
   /* # quotas
 
+  TODO: à remettre en place (et sectionner le fichier ?)
+
   fileSystems."/" = {
     options = [ "defaults" "usrquota" ];
   };
@@ -100,4 +102,6 @@
     { domain = "root"; type = "hard"; item = "nproc"; value = "unlimited"; } # désactive restriction processus pour root
     { domain = "root"; type = "soft"; item = "nproc"; value = "unlimited"; }
   ];*/
+
+  # TODO: installer Cloudflared !! et tester à appliquer le token..
 }

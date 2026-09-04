@@ -108,6 +108,11 @@
 
   # Voir le contenu du cache
   sudo unbound-control -s /run/unbound/unbound.ctl dump_cache | less
+  sudo unbound-control -s /run/unbound/unbound.ctl dump_cache \
+  | awk '$3 == "IN" { printf "%-35s %-8s %-8s %s\n", $1, $4, $2"s", $5 }' \
+  | sort -k1,1 \
+  | column -t -N "DOMAINE,TYPE,TTL,VALEUR" \
+  | less
 
   # Voir le contenu de la sauvegarde
   sudo cat /var/lib/unbound/cache.dump

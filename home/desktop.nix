@@ -26,7 +26,7 @@
     tagger
 
     # Outils Dev / Docs
-    android-studio
+    # android-studio # TODO: installer flutter
     pdftk
     imagemagick
 
@@ -139,6 +139,7 @@
       "x-scheme-handler/mailto" = [ "userapp-Thunderbird-CMC7R3.desktop" ];
       "x-scheme-handler/mid" = [ "userapp-Thunderbird-CMC7R3.desktop" ];
       "message/rfc822" = [ "userapp-Thunderbird-CMC7R3.desktop" ];
+      # TODO: gérer fichiers pub (clés ssh publiques qui s'ouvrent sur libreoffice draw)
     };
   };
   home.preferXdgDirectories = true;
