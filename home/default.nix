@@ -28,7 +28,7 @@
     settings = {
       user = {
         name = "Al Capitan";
-        email = "alexandre.boyer29@gmail.com"; 
+        email = "alexandre.boyer29@gmail.com";
       };
     };
     signing = {
@@ -47,19 +47,18 @@
 
   # Accès SSH commun vers le stockage Borg
   programs.ssh = {
-    enable = true; 
+    enable = true;
     enableDefaultConfig = false;
-    
+
     settings = {
       "Host borg-repo" = {
         HostName = "u502181-sub4.your-storagebox.de";
         User = "u502181-sub4";
         Port = "23";
       };
-      "Host alcap" = {
-        HostName = "alcapitan.me";
+      "Host ssh.alcapitan.me alcap" = {
+        ProxyCommand = "cloudflared access ssh --hostname ssh.alcapitan.me";
         User = "alex";
-        Port = "1274";
       };
     };
   };

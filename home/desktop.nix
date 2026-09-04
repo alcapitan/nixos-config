@@ -11,10 +11,10 @@
     firefox #! deprecated
     # librewolf
     thunderbird
-    libreoffice-qt-fresh
+    libreoffice-qt
     vlc
     vscode #! deprecated
-    # vscodium ou zed
+    pkgs-unstable.zed-editor
     beeper
     discord
     pkgs-unstable.proton-authenticator
@@ -29,7 +29,9 @@
     android-studio
     pdftk
     imagemagick
-  
+
+    pkgs-unstable.cloudflared
+
     # Self-made commands
     (pkgs.writeShellScriptBin "ytm-download" ''
       if [ -z "$1" ]; then
