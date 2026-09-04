@@ -3,6 +3,7 @@
 
     inputs = {
         nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
+        nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
         home-manager = {
             url = "github:nix-community/home-manager/release-26.05";
             inputs.nixpkgs.follows = "nixpkgs";
@@ -18,10 +19,14 @@
         };
     };
 
-    outputs = { self, nixpkgs, sops-nix, home-manager, plasma-manager, ... }@inputs:
+    outputs = { self, nixpkgs, nixpkgs-unstable, sops-nix, home-manager, plasma-manager, ... }@inputs:
         let
             system = "x86_64-linux";
             pkgs = nixpkgs.legacyPackages.${system};
+            pkgs-unstable = import nixpkgs-unstable {
+              inherit system;
+              config.allowUnfree = true;
+            };
         in
         {
             devShells.${system}.default = pkgs.mkShell {
@@ -34,7 +39,11 @@
 
             nixosConfigurations = {
                 dell3510 = nixpkgs.lib.nixosSystem {
-                    system = "x86_64-linux";
+                    inherit system;
+
+                    specialArgs = {
+                      inherit pkgs-unstable;
+                    };
 
                     modules = [
                         sops-nix.nixosModules.sops
@@ -47,6 +56,9 @@
                             home-manager.useGlobalPkgs = true;
                             home-manager.useUserPackages = true;
                             home-manager.backupFileExtension = "backup";
+                            home-manager.extraSpecialArgs = {
+                              inherit pkgs-unstable;
+                            };
                             home-manager.users.alex = {
                                 imports = [
                                     plasma-manager.homeModules.plasma-manager

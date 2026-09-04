@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, pkgs-unstable, ... }:
 
 {
   imports = [
@@ -52,14 +52,14 @@
 
   # Virtualisation & Outils graphiques système
   virtualisation.libvirtd.enable = true;
-  
+
   environment.systemPackages = with pkgs; [
     virt-manager
     gparted
     ntfs3g
     pinentry-qt
     kdePackages.bluedevil
-    proton-vpn
+    pkgs-unstable.proton-vpn
     android-tools
     wl-clipboard
   ];

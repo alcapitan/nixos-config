@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, pkgs-unstable, ... }:
 
 {
   imports = [
@@ -17,14 +17,14 @@
     # vscodium ou zed
     beeper
     discord
-    proton-authenticator
-    
+    pkgs-unstable.proton-authenticator
+
     # Design / Multimédia
     inkscape
     gimp
     parabolic
     tagger
-    
+
     # Outils Dev / Docs
     android-studio
     pdftk
@@ -40,7 +40,7 @@
       # Si l'argument est un fichier texte existant
       if [ -f "$1" ]; then
         echo "Téléchargement à partir du fichier texte : $1"
-        
+
         ${pkgs.yt-dlp}/bin/yt-dlp \
           --batch-file "$1" \
           --default-search "ytsearch1" \
