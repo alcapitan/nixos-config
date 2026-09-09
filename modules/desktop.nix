@@ -63,6 +63,9 @@
     android-tools
     wl-clipboard
   ];
+  environment.plasma6.excludePackages = with pkgs.kdePackages; [
+    gwenview
+  ];
 
   programs.gnupg.agent = {
     enable = true;

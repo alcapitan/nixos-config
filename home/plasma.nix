@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, pkgs-unstable, ... }:
 
 {
     home.packages = with pkgs; [
@@ -11,6 +11,7 @@
         kdePackages.kdepim-runtime
         kdePackages.kdepim-addons
         kdePackages.merkuro
+        pkgs-unstable.kdePackages.koko
     ];
 
     # Raccourci Web personnalisé
@@ -61,11 +62,11 @@
         workspace.wallpaper = "/etc/wallpaper.jpg";
 
         input.keyboard.numlockOnStartup = "on";
-        
+
         krunner = {
         position = "center";
         };
-        
+
         # colorScheme = "BreezeDark";
         windowManager.kwin.titlebar = {
         # Disposition classique KDE (Réduire, Agrandir, Fermer à droite)
