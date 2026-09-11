@@ -1,14 +1,16 @@
 { config, pkgs, ... }:
 
 {
+    # TODO: finir de clean les fichiers suivis dont les projets dev old et le scolaire et les jeux (conserver les sauvegardes !!)
+
     services.borgbackup.jobs."backup" = {
         repo = "ssh://u502181-sub4@u502181-sub4.your-storagebox.de:23/./pc";
         doInit = false;
         environment.BORG_RSH = "ssh -i /var/lib/secrets/borg-ssh-key";
         extraCreateArgs = "--verbose --stats --exclude-from /home/alex/.borg-exclude";
-        paths = [ 
+        paths = [
             "/home"
-            "/var/lib/secrets" 
+            "/var/lib/secrets"
         ];
         failOnWarnings = false;
         encryption = {
