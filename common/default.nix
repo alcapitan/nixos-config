@@ -19,7 +19,14 @@
   security.sudo.extraConfig = ''
     Defaults env_reset,pwfeedback
   '';
-  
+
+  # Rotation et nettoyage des journaux
+  services.journald.extraConfig = ''
+    SystemMaxUse=1G
+    SystemMaxFileSize=100M
+    MaxRetentionSec=1month
+  '';
+
   programs.zsh = {
     enable = true;
     interactiveShellInit = ''
@@ -42,7 +49,7 @@
     gnupg
     _7zip-zstd
     vulnix
-    
+
     (pkgs.writeShellScriptBin "copy" ''
       if [ -n "$WAYLAND_DISPLAY" ]; then
         # retire le saut de ligne en fin s'il existe
