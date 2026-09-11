@@ -16,15 +16,20 @@
   services.fstrim.enable = true;
 
   # Bootloader spécifique à cette machine
-  boot.loader.grub = {
+  boot.loader.systemd-boot = {
     enable = true;
-    device = "nodev";
-    efiSupport = true;
-    useOSProber = true;
+    configurationLimit = 7;
+    extraEntries = {
+      "debian.conf" = ''
+        title Debian rescue
+        efi   /EFI/debian/grubx64.efi
+      '';
+    };
   };
+  boot.initrd.systemd.network.wait-online.enable = false;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelPackages = pkgs.linuxPackages_zen;
-  
+
   console.earlySetup = true;
   boot.kernelParams = [ "numlock=on" ];
 

@@ -51,7 +51,10 @@
   };
 
   # Virtualisation & Outils graphiques système
-  virtualisation.libvirtd.enable = true;
+  virtualisation.libvirtd = {
+    enable = true;
+    onBoot = "ignore"; # pour accélérer le démarrage
+  };
 
   environment.systemPackages = with pkgs; [
     virt-manager
