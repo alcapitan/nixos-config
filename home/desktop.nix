@@ -69,6 +69,72 @@
           "$1"
       fi
     '')
+
+    (pkgs.writeScriptBin "unlock" ''
+        #!${pkgs.zsh}/bin/zsh
+
+        setopt ERR_EXIT         # Arrête le script si une commande échoue
+        setopt NO_UNSET         # Erreur si une variable non définie est lue
+        setopt PIPE_FAIL        # Propage les erreurs à travers les pipes
+
+        # Vérifie si un fichier gpg est passé en paramètre
+        if [[ $# -ne 1 ]]; then
+          print -u2 "Usage: unlock <path-to-gpg>"
+          exit 1
+        fi
+
+        # :A résout le chemin absolu et suit les liens symboliques en Zsh
+        SRC_FILE="''${1:A}"
+        if [[ ! -f "$SRC_FILE" ]]; then
+          print -u2 "Erreur : Fichier introuvable : $SRC_FILE"
+          exit 1
+        fi
+
+        # Identité GPG pour le rechiffrement
+        GPG_RECIPIENT="alexandre.boyer29@gmail.com"
+
+        WORKDIR="/home/$USER/tmp/unlock"
+        DATA_DIR="$WORKDIR/content"
+
+        # Nettoyage initial et création de l'espace de travail
+        rm -rf "$WORKDIR"
+        mkdir -p "$DATA_DIR"
+
+        # Trap Zsh exécuté automatiquement à la fin du script
+        TRAPEXIT() {
+          rm -rf "$WORKDIR"
+        }
+
+        print -P "%F{green}==> Copie de l'archive chiffrée...%f"
+        cp "$SRC_FILE" "$WORKDIR/secret.tar.gz.gpg"
+
+        print -P "%F{green}==> Déchiffrement...%f"
+        ${pkgs.gnupg}/bin/gpg --quiet --decrypt "$WORKDIR/secret.tar.gz.gpg" > "$WORKDIR/secret.tar.gz"
+
+        print -P "%F{green}==> Extraction...%f"
+        ${pkgs.gnutar}/bin/tar -xzf "$WORKDIR/secret.tar.gz" -C "$DATA_DIR"
+
+        # Suppression de l'archive temporaire avant modification
+        rm -f "$WORKDIR/secret.tar.gz" "$WORKDIR/secret.tar.gz.gpg"
+
+        print -P "%F{yellow}==> Ouverture du shell (tapez 'exit' ou Ctrl+D pour terminer)...%f"
+        (
+          cd "$DATA_DIR"
+          exec "''${SHELL:-${pkgs.zsh}/bin/zsh}"
+        )
+
+        print -P "%F{green}==> Recompression de l'archive...%f"
+        ${pkgs.gnutar}/bin/tar -czf "$WORKDIR/secret.tar.gz" -C "$DATA_DIR" .
+
+        print -P "%F{green}==> Rechiffrement pour $GPG_RECIPIENT...%f"
+        ${pkgs.gnupg}/bin/gpg --quiet --yes --encrypt --recipient "$GPG_RECIPIENT" \
+          --output "$WORKDIR/secret.tar.gz.gpg" "$WORKDIR/secret.tar.gz"
+
+        print -P "%F{green}==> Remplacement du fichier d'origine...%f"
+        mv "$WORKDIR/secret.tar.gz.gpg" "$SRC_FILE"
+
+        print -P "%F{blue}==> Terminé avec succès !%f"
+      '')
   ];
 
   programs.librewolf = {
