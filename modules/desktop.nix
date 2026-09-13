@@ -67,6 +67,7 @@
     wl-clipboard
   ];
   environment.plasma6.excludePackages = with pkgs.kdePackages; [
+    discover
     gwenview
   ];
 
