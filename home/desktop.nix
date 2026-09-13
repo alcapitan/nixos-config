@@ -24,6 +24,7 @@
     gimp
     parabolic
     tagger
+    pkgs-unstable.yt-dlp
 
     # Outils Dev / Docs
     # android-studio # TODO: installer flutter
@@ -43,7 +44,7 @@
       if [ -f "$1" ]; then
         echo "Téléchargement à partir du fichier texte : $1"
 
-        ${pkgs.yt-dlp}/bin/yt-dlp \
+        ${pkgs-unstable.yt-dlp}/bin/yt-dlp \
           --batch-file "$1" \
           --default-search "ytsearch1" \
           -f "ba[ext=webm]/ba" \
@@ -56,7 +57,7 @@
           --ignore-errors
       else
         # Si c'est une URL directe (playlist ou vidéo)
-        ${pkgs.yt-dlp}/bin/yt-dlp \
+        ${pkgs-unstable.yt-dlp}/bin/yt-dlp \
           -f "ba[ext=webm]/ba" \
           --extract-audio \
           --audio-format opus \
