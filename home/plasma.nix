@@ -14,6 +14,10 @@
         pkgs-unstable.kdePackages.koko
     ];
 
+    programs.plasma = {
+      enable = true; # ! obligatoire car conditionne les instructions suivantes
+    };
+
     # Raccourci Web personnalisé
     xdg.desktopEntries = {
         open-gemini = {
@@ -24,6 +28,33 @@
                 X-KDE-Shortcuts = "Ctrl+Alt+G";
             };
         };
+    };
+
+    # Powerdevil est le daemon batterie propre à Plasma, chaque bureau a le sien
+    programs.plasma.powerdevil = {
+      # Branché sur prise électrique
+      AC = {
+        dimDisplay.idleTimeout = 600;
+        turnOffDisplay.idleTimeout = 900;
+        inhibitLidActionWhenExternalMonitorConnected = false;
+        powerButtonAction = "sleep";
+      };
+
+      battery = {
+        dimDisplay.idleTimeout = 600;
+        turnOffDisplay.idleTimeout = 900;
+        inhibitLidActionWhenExternalMonitorConnected = false;
+        powerButtonAction = "sleep";
+        whenSleepingEnter = "hybridSleep";
+      };
+
+      lowBattery = {
+        displayBrightness = 10;
+        keyboardBrightness = 0;
+        inhibitLidActionWhenExternalMonitorConnected = false;
+        powerButtonAction = "sleep";
+        whenSleepingEnter = "hybridSleep";
+      };
     };
 
     # Configuration du Terminal Konsole
