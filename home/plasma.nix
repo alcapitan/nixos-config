@@ -163,6 +163,20 @@
         }
         {
           digitalClock = {
+            date = {
+              enable = true;
+              format = {
+                custom = "dddd d MMM";
+              };
+              position = "belowTime";
+            };
+            font = {
+              family = "Liberation Serif";
+              size = 12;
+              weight = 500;
+              bold = false;
+              italic = true;
+            };
             timeZone = {
               selected = [
                 "America/Guadeloupe"
@@ -173,10 +187,6 @@
               showWeekNumbers = true;
               plugins = [ "pimevents" ];
             };
-            font = {
-              family = "Noto Sans";
-              weight = 400;
-            };
           };
         }
         "org.kde.plasma.showdesktop"
@@ -185,27 +195,50 @@
   ];
 
   programs.konsole = {
-      enable = true;
-      defaultProfile = "MonProfil";
-      profiles = {
-          "MonProfil" = {
-              name = "MonProfil";
-              font = {
-                  name = "Liberation Mono";
-                  size = 14;
-              };
-          };
+    enable = true;
+    defaultProfile = "MonProfil";
+    profiles = {
+      "MonProfil" = {
+        name = "MonProfil";
+        font = {
+          name = "Liberation Mono";
+          size = 14;
+        };
       };
+    };
   };
 
   programs.kate = {
-      enable = true;
-      editor.brackets.automaticallyAddClosing = false;
-      editor.font = {
-          family = "Liberation Mono";
-          pointSize = 14;
-      };
+    enable = true;
+    editor.brackets.automaticallyAddClosing = false;
+    editor.font = {
+      family = "Liberation Mono";
+      pointSize = 14;
+    };
   };
+
+  programs.plasma.desktop.widgets = [
+    {
+      name = "org.kde.plasma.notes";
+      position = {
+        horizontal = 50;
+        vertical = 50;
+      };
+      size = {
+        width = 400;
+        height = 400;
+      };
+      screen = 0; # Écran cible (0 pour l'écran principal ou "all")
+      config = {
+        General = {
+          # * ls ~/.local/share/plasma_notes/
+          noteId = "todolist";
+          color = "yellow"; # Couleur du post-it : yellow, white, black, red, green, blue, pink, orange, translucent
+          fontSize = 13;
+        };
+      };
+    }
+  ];
 
   programs.plasma.workspace = {
     wallpaper = "/etc/wallpaper.jpg";
@@ -215,16 +248,18 @@
     };
   };
 
-  home.packages = with pkgs; [
-    kdePackages.kate
-    kdePackages.kcharselect
-    kdePackages.kcolorchooser
-    kdePackages.filelight
-    kdePackages.kcalc
-    kdePackages.plasma-browser-integration
-    kdePackages.kdepim-runtime
-    kdePackages.kdepim-addons
-    kdePackages.merkuro
+  home.packages = with pkgs.kdePackages; [
+    kate
+    kcharselect
+    kcolorchooser
+    filelight
+    kcalc
+    plasma-browser-integration
+    kdepim-runtime
+    kdepim-addons
+    akonadi
+    eventviews
+    merkuro
     pkgs-unstable.kdePackages.koko
   ];
 }
