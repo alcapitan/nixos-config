@@ -321,7 +321,7 @@
     };
   };
   home.preferXdgDirectories = true;
-  xdg.configFile."mimeapps.list".force = true; #! destructif ; rm ~/.config/mimeapps.list
+  xdg.configFile."mimeapps.list".force = true; # ! destructif ; rm ~/.config/mimeapps.list
   xdg.dataFile."applications/mimeapps.list".force = true;
 
   # Démarrage automatique d'application au démarrage de la session user

@@ -1,193 +1,230 @@
 { config, pkgs, pkgs-unstable, ... }:
 
 {
-    home.packages = with pkgs; [
-        kdePackages.kate
-        kdePackages.kcharselect
-        kdePackages.kcolorchooser
-        kdePackages.filelight
-        kdePackages.kcalc
-        kdePackages.plasma-browser-integration
-        kdePackages.kdepim-runtime
-        kdePackages.kdepim-addons
-        kdePackages.merkuro
-        pkgs-unstable.kdePackages.koko
+  # * configuration plasma (mis à jour à l'extinction système) : cat ~/.config/plasma-org.kde.plasma.desktop-appletsrc
+  # * documentation : https://nix-community.github.io/plasma-manager/options.html
+  # * extrait la configuration actuelle : nix run github:nix-community/plasma-manager/trunk#rc2nix
+
+  programs.plasma = {
+    enable = true; # ! obligatoire car conditionne les instructions suivantes
+    overrideConfig = true; #! destructive
+  };
+
+  # Powerdevil est le daemon batterie propre à Plasma, chaque bureau a le sien
+  programs.plasma.powerdevil = {
+    # Branché sur prise électrique
+    AC = {
+      dimDisplay.idleTimeout = 600;
+      turnOffDisplay.idleTimeout = 900;
+      inhibitLidActionWhenExternalMonitorConnected = false;
+      powerButtonAction = "sleep";
+    };
+
+    battery = {
+      dimDisplay.idleTimeout = 600;
+      turnOffDisplay.idleTimeout = 900;
+      inhibitLidActionWhenExternalMonitorConnected = false;
+      powerButtonAction = "sleep";
+      whenSleepingEnter = "hybridSleep";
+    };
+
+    lowBattery = {
+      displayBrightness = 10;
+      keyboardBrightness = 0;
+      inhibitLidActionWhenExternalMonitorConnected = false;
+      powerButtonAction = "sleep";
+      whenSleepingEnter = "hybridSleep";
+    };
+  };
+
+  programs.plasma.kwin = {
+    titlebarButtons.left = [
+      "keep-above-windows"
     ];
 
-    programs.plasma = {
-      enable = true; # ! obligatoire car conditionne les instructions suivantes
-    };
-
-    # Raccourci Web personnalisé
-    xdg.desktopEntries = {
-        open-gemini = {
-            name = "Ouvrir Gemini";
-            exec = "xdg-open https://gemini.google.com";
-            icon = "internet-web-browser";
-            settings = {
-                X-KDE-Shortcuts = "Ctrl+Alt+G";
-            };
-        };
-    };
-
-    # Powerdevil est le daemon batterie propre à Plasma, chaque bureau a le sien
-    programs.plasma.powerdevil = {
-      # Branché sur prise électrique
-      AC = {
-        dimDisplay.idleTimeout = 600;
-        turnOffDisplay.idleTimeout = 900;
-        inhibitLidActionWhenExternalMonitorConnected = false;
-        powerButtonAction = "sleep";
-      };
-
-      battery = {
-        dimDisplay.idleTimeout = 600;
-        turnOffDisplay.idleTimeout = 900;
-        inhibitLidActionWhenExternalMonitorConnected = false;
-        powerButtonAction = "sleep";
-        whenSleepingEnter = "hybridSleep";
-      };
-
-      lowBattery = {
-        displayBrightness = 10;
-        keyboardBrightness = 0;
-        inhibitLidActionWhenExternalMonitorConnected = false;
-        powerButtonAction = "sleep";
-        whenSleepingEnter = "hybridSleep";
+    nightLight = {
+      enable = true;
+      mode = "times";
+      time = {
+        evening = "20:00";
+        morning = "07:00";
       };
     };
+  };
 
-    # Configuration du Terminal Konsole
-    programs.konsole = {
-        enable = true;
-        defaultProfile = "MonProfil";
-        profiles = {
-            "MonProfil" = {
-                name = "MonProfil";
-                font = {
-                    name = "Liberation Mono";
-                    size = 14;
-                };
-            };
-        };
+  programs.plasma.input.keyboard = {
+    numlockOnStartup = "on";
+  };
+
+  programs.plasma.krunner = {
+    position = "center";
+  };
+
+  programs.plasma.hotkeys.commands = {
+    "open-gemini" = {
+      name = "Ouvrir Gemini";
+      key = "Ctrl+Alt+G";
+      command = "xdg-open https://gemini.google.com";
     };
+  };
 
-    # Configuration de l'éditeur Kate
-    programs.kate = {
-        enable = true;
-        editor.brackets.automaticallyAddClosing = false;
-        editor.font = {
-            family = "Liberation Mono";
-            pointSize = 14;
-        };
+  programs.plasma.workspace = {
+    colorScheme = "BreezeDark";
+    theme = "breeze-dark";
+    lookAndFeel = "org.kde.breezedark.desktop";
+
+    cursor = {
+      size = 42;
     };
+  };
 
-    # TODO: réparer ce bordel (options inexistantes)
-    #* extrait la configuration actuelle : nix run github:nix-community/plasma-manager/trunk#rc2nix
-    /*
-    # Configuration spécifique à Plasma (Fond d'écran...)
-    programs.plasma = {
-        enable = true;
-        # overrideConfig = true; #! destructive
-
-        workspace.wallpaper = "/etc/wallpaper.jpg";
-
-        input.keyboard.numlockOnStartup = "on";
-
-        krunner = {
-        position = "center";
-        };
-
-        # colorScheme = "BreezeDark";
-        windowManager.kwin.titlebar = {
-        # Disposition classique KDE (Réduire, Agrandir, Fermer à droite)
-        buttons = {
-            right = [ "minimize" "maximize" "close" ];
-            left = [ "above_all" ];
-        };
-        };
-
-        panels = [
-        # =================================================================
-        # Panneau 1 : Écran Principal (screen 0)
-        # =================================================================
+  programs.plasma.panels = [
+    {
+      location = "bottom";
+      floating = true;
+      height = 44;
+      widgets = [
         {
-            location = "bottom";
-            screen = 0;
-            widgets = [
-            # 1. Widget Météo (Configuré sur Avignon)
-            {
-                name = "org.kde.plasma.weather";
-                config = {
-                WeatherStation = {
-                    placeDisplayName = "Avignon, France, FR";
-                    placeInfo = "Avignon, France, FR|3035681";
-                    provider = "bbcukmet";
-                };
-                };
-            }
-
-            # 2. Contrôleur Média
-            "org.kde.plasma.mediacontroller"
-
-            # 3. Pager (Changeur de bureaux virtuels)
-            "org.kde.plasma.pager"
-
-            # 4. Espaceur
-            "org.kde.plasma.panelspacer"
-
-            # 5. Menu Démarrer (Kickoff avec l'icône Nix)
-            {
-                name = "org.kde.plasma.kickoff";
-                config = {
-                General = {
-                    icon = "nix-snowflake-white";
-                    systemFavorites = "suspend\\,hibernate\\,reboot\\,shutdown";
-                };
-                };
-            }
-
-            # 6. Gestionnaire de tâches (Icônes seules)
-            "org.kde.plasma.icontasks"
-
-            # 7. Espaceur
-            "org.kde.plasma.panelspacer"
-
-            # 8. Séparateur de marges
-            "org.kde.plasma.marginsseparator"
-
-            # 9. Boîte à miniatures (System Tray)
-            {
-                name = "org.kde.plasma.systemtray";
-                config = {
-                General = {
-                    shownItems = [
-                    "org.kde.plasma.battery"
-                    "org.kde.plasma.notifications"
-                    "org.kde.plasma.clipboard"
-                    ];
-                };
-                };
-            }
-
-            # 10. Horloge digitale (Configurée avec la Guadeloupe & Numéros de semaine)
-            {
-                name = "org.kde.plasma.digitalclock";
-                config = {
-                Appearance = {
-                    enabledCalendarPlugins = "pimevents";
-                    fontWeight = 400;
-                    selectedTimeZones = [ "America/Guadeloupe" "Local" ];
-                    showWeekNumbers = true;
-                };
-                };
-            }
-
-            # 11. Afficher le bureau
-            "org.kde.plasma.showdesktop"
-            ];
+          name = "org.kde.plasma.weather";
+          config = {
+            WeatherStation = {
+              placeDisplayName = "Avignon, France, FR";
+              placeInfo = "Avignon, France, FR|3035681";
+              provider = "bbcukmet";
+            };
+          };
         }
-        ];
+        "org.kde.plasma.mediacontroller"
+        {
+          pager = {
+            general = {
+              # options disponibles :
+              # showWindowOutlines = true;
+              # showApplicationIconsOnWindowOutlines = false;
+              # showOnlyCurrentScreen = false;
+              # navigationWrapsAround = false;
+              # displayedText = "none"; # ou "desktopNumber", "desktopName"
+              # selectingCurrentVirtualDesktop = "showDesktop"; # ou "doNothing"
+            };
+          };
+        }
+        { panelSpacer = { expanding = true; }; }
+        {
+          kickoff = {
+            icon = "nix-snowflake-white";
+            showButtonsFor = "power";
+          };
+        }
+        {
+          iconTasks = {
+            launchers = [
+              "preferred://filemanager"
+              "preferred://browser"
+              "applications:dev.zed.Zed.desktop"
+              "applications:beepertexts.desktop"
+              "applications:Proton Authenticator.desktop"
+            ];
+          };
+        }
+        { panelSpacer = { expanding = true; }; }
+        "org.kde.plasma.marginsseparator"
+        {
+          systemTray = {
+            items = {
+              shown = [
+                "org.kde.plasma.battery"
+                "org.kde.plasma.notifications"
+                "org.kde.plasma.clipboard"
+              ];
+              extra = [
+                "org.kde.plasma.cameraindicator"
+                "org.kde.plasma.clipboard"
+                "org.kde.plasma.devicenotifier"
+                "org.kde.plasma.manage-inputmethod"
+                "org.kde.plasma.notifications"
+                "org.kde.merkuro.contact.applet"
+                "org.kde.kscreen"
+                "org.kde.plasma.battery"
+                "org.kde.plasma.bluetooth"
+                "org.kde.plasma.brightness"
+                "org.kde.plasma.keyboardindicator"
+                "org.kde.plasma.keyboardlayout"
+                "org.kde.plasma.networkmanagement"
+                "org.kde.plasma.printmanager"
+                "org.kde.plasma.volume"
+                "org.kde.plasma.weather"
+              ];
+              hidden = [ ];
+              configs = {
+                battery.showPercentage = true;
+              };
+            };
+          };
+        }
+        {
+          digitalClock = {
+            timeZone = {
+              selected = [
+                "America/Guadeloupe"
+                "Local"
+              ];
+            };
+            calendar = {
+              showWeekNumbers = true;
+              plugins = [ "pimevents" ];
+            };
+            font = {
+              family = "Noto Sans";
+              weight = 400;
+            };
+          };
+        }
+        "org.kde.plasma.showdesktop"
+      ];
+    }
+  ];
+
+  programs.konsole = {
+      enable = true;
+      defaultProfile = "MonProfil";
+      profiles = {
+          "MonProfil" = {
+              name = "MonProfil";
+              font = {
+                  name = "Liberation Mono";
+                  size = 14;
+              };
+          };
+      };
+  };
+
+  programs.kate = {
+      enable = true;
+      editor.brackets.automaticallyAddClosing = false;
+      editor.font = {
+          family = "Liberation Mono";
+          pointSize = 14;
+      };
+  };
+
+  programs.plasma.workspace = {
+    wallpaper = "/etc/wallpaper.jpg";
+    wallpaperFillMode = "preserveAspectFit";
+    wallpaperBackground = {
+      color = "0,0,0"; # format RGB
     };
-    */
+  };
+
+  home.packages = with pkgs; [
+    kdePackages.kate
+    kdePackages.kcharselect
+    kdePackages.kcolorchooser
+    kdePackages.filelight
+    kdePackages.kcalc
+    kdePackages.plasma-browser-integration
+    kdePackages.kdepim-runtime
+    kdePackages.kdepim-addons
+    kdePackages.merkuro
+    pkgs-unstable.kdePackages.koko
+  ];
 }
