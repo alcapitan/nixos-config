@@ -18,7 +18,7 @@
   # Bootloader spécifique à cette machine
   boot.loader.systemd-boot = {
     enable = true;
-    configurationLimit = 7;
+    configurationLimit = 10;
     extraEntries = {
       "debian.conf" = ''
         title Debian rescue
