@@ -18,6 +18,7 @@
     beeper
     discord
     pkgs-unstable.proton-authenticator
+    organicmaps
 
     # Design / Multimédia
     inkscape

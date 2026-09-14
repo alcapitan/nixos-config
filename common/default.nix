@@ -43,6 +43,7 @@
     curl
     fd
     ripgrep
+    sd
     fastfetch
     librespeed-cli
     btop
