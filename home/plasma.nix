@@ -25,7 +25,6 @@
       turnOffDisplay.idleTimeout = 900;
       inhibitLidActionWhenExternalMonitorConnected = false;
       powerButtonAction = "sleep";
-      whenSleepingEnter = "hybridSleep";
     };
 
     lowBattery = {
