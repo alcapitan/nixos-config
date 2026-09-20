@@ -20,6 +20,9 @@
         compression = "auto,zstd,6";
         startAt = "daily";
 
+        archiveBaseName = null;
+        dateFormat = "+%Y-%m-%d_%H:%M:%S";
+
         prune = {
             keep = {
                 within = "1d";
