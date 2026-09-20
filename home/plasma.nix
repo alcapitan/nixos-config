@@ -200,7 +200,7 @@
       "MonProfil" = {
         name = "MonProfil";
         font = {
-          name = "Liberation Mono";
+          name = "JetBrainsMono Nerd Font";
           size = 14;
         };
       };

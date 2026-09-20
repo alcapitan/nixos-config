@@ -33,6 +33,7 @@
     jdk
     pdftk
     imagemagick
+    nerd-fonts.jetbrains-mono
 
     pkgs-unstable.cloudflared
 

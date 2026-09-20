@@ -41,15 +41,29 @@
     tree
     git
     curl
-    fd
-    ripgrep
-    sd
     fastfetch
     librespeed-cli
-    btop
     gnupg
     _7zip-zstd
     vulnix
+
+    # nouveaux outils modernisés
+    btop # remplace top/htop
+    fd # remplace find
+    ripgrep # appeler rg, remplace grep
+    sd # remplacer sed, donc remplace du texte
+    bat # remplace cat
+    eza # remplace ls
+    zoxide # appeler z, remplace cd ; zoxide query --list --score
+    duf # remplace df, donc affiche l'état des points de montage
+    dust # remplace du, donc affiche le poids des fichiers
+    delta # remplace diff
+    procs # remplace ps
+    tealdeer # remplace man, donc des tutos d'utilisation pour plein de commandes
+    gping # remplace ping
+    hyperfine # remplace time, donc pour des benchmarks
+    nh # remplace nixos-rebuild
+    nix-output-monitor # pour l'arbre de reconstruction de nh
 
     (pkgs.writeShellScriptBin "copy" ''
       if [ -n "$WAYLAND_DISPLAY" ]; then
