@@ -257,7 +257,11 @@
     kdepim-runtime
     kdepim-addons
     akonadi
+    akonadi-calendar
     eventviews
+    calendarsupport
+    pimcommon
+    libkdepim
     merkuro
     pkgs-unstable.kdePackages.koko
   ];
