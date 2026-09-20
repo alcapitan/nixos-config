@@ -63,7 +63,7 @@
     pinentry-qt
     kdePackages.bluedevil
     pkgs-unstable.proton-vpn
-    android-tools
+    android-tools # pour le transfert de fichiers avec adb + l'exécution android pour programmation
     wl-clipboard
   ];
   environment.plasma6.excludePackages = with pkgs.kdePackages; [

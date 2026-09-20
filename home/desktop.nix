@@ -28,7 +28,9 @@
     pkgs-unstable.yt-dlp
 
     # Outils Dev / Docs
-    # android-studio # TODO: installer flutter
+    android-studio
+    flutter
+    jdk
     pdftk
     imagemagick
 
@@ -326,4 +328,13 @@
 
   # Démarrage automatique d'application au démarrage de la session user
   xdg.configFile."autostart/proton.vpn.app.gtk.desktop".source = "${pkgs.proton-vpn}/share/applications/proton.vpn.app.gtk.desktop";
+
+  # pour le développement android
+  home.sessionVariables = {
+    JAVA_HOME = "${pkgs.jdk}";
+    CHROME_EXECUTABLE = "${pkgs.brave}/bin/brave";
+    DART_SDK = "${pkgs.flutter}/bin/cache/dart-sdk";
+  };
+  home.file.".local/share/dart-sdk".source = "${pkgs.flutter}/bin/cache/dart-sdk"; # un chemin fixe pour que android studio sache retrouver dart sdk
+  home.file.".local/share/flutter".source = pkgs.flutter;
 }

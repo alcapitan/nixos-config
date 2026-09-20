@@ -8,7 +8,7 @@
   users.users.alex = {
     isNormalUser = true;
     description = "Al Capitan";
-    extraGroups = [ "networkmanager" "wheel" "libvirtd" "adbusers" "docker" ];
+    extraGroups = [ "networkmanager" "wheel" "libvirtd" "docker" ];
     shell = pkgs.zsh;
 
     hashedPassword = "$6$CQgLD1YWDYeDoVbj$7b0WEXEheZ6Tm4PqhQNHYf7baBP92tsBCfdh94Yn0zaZO7DSckK3IyrIs2oAYzAtkMjgPwacugfO7fKIt2kk4."; # temporaire
