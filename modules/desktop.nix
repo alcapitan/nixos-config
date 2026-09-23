@@ -80,6 +80,7 @@
   programs.localsend = {
     enable = true;
     openFirewall = true;
+    package = pkgs-unstable.localsend;
   };
 
   environment.etc."wallpaper.jpg".source = ../assets/wallpaper.jpg;

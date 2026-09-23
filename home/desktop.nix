@@ -191,6 +191,7 @@
   # ! TODO: zed ne pourra plus modifier ses paramètres après que le fichier de config actuel soit supprimé
   programs.zed-editor = {
     enable = true;
+    package = pkgs-unstable.zed-editor;
     userSettings = {
       auto_install_extensions = {
         nix = true;
