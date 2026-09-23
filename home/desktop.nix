@@ -39,37 +39,45 @@
 
     # Self-made commands
     (pkgs.writeShellScriptBin "ytm-download" ''
+      set -euo pipefail
+
       if [ -z "$1" ]; then
-        echo "Usage: ytm-download <URL_OU_FICHIER.txt>"
+        echo "Usage: ytm-download <URL_OU_FICHIER.txt_OU_RECHERCHE>"
         exit 1
       fi
 
-      # Si l'argument est un fichier texte existant
+      YTDLP_ARGS=(
+        -f "bestaudio"
+        --extract-audio
+        --audio-format best
+        --audio-quality 0
+        --embed-metadata
+        --add-metadata
+        --embed-thumbnail
+        --embed-chapters
+        --ppa "ThumbnailsConvertor:-vf crop='min(iw\,ih)':'min(iw\,ih)'"
+        --extractor-args "youtube:player_client=web_music"
+        --parse-metadata "%(channel)s:%(artist)s"
+        --replace-in-metadata "artist,channel,uploader" "\s*-\s*Topic$" ""
+        --replace-in-metadata "title" "(?i)\s*[\(\[][^\)\]]*(official|lyric|audio|video|remix|visualizer|explicit|hd|4k|mv)[^\)\]]*[\)\]]\s*" ""
+        --downloader ffmpeg
+        --concurrent-fragments 1
+        --no-post-overwrites
+        --ignore-errors
+        -o "%(artist,channel,uploader)s - %(title)s.%(ext)s"
+      )
+
       if [ -f "$1" ]; then
         echo "Téléchargement à partir du fichier texte : $1"
-
         ${pkgs-unstable.yt-dlp}/bin/yt-dlp \
           --batch-file "$1" \
           --default-search "ytsearch1" \
-          -f "ba[ext=webm]/ba" \
-          --extract-audio \
-          --audio-format opus \
-          -o "%(artist,uploader)s - %(title)s.%(ext)s" \
-          --add-metadata \
-          --embed-thumbnail \
-          --ppa "ThumbnailsConvertor:-vf crop='ih:ih'" \
-          --ignore-errors
+          "''${YTDLP_ARGS[@]}"
       else
         # Si c'est une URL directe (playlist ou vidéo)
         ${pkgs-unstable.yt-dlp}/bin/yt-dlp \
-          -f "ba[ext=webm]/ba" \
-          --extract-audio \
-          --audio-format opus \
-          -o "%(artist,uploader)s - %(title)s.%(ext)s" \
-          --add-metadata \
-          --embed-thumbnail \
-          --ppa "ThumbnailsConvertor:-vf crop='ih:ih'" \
-          --ignore-errors \
+          --default-search "ytsearch1" \
+          "''${YTDLP_ARGS[@]}" \
           "$1"
       fi
     '')
