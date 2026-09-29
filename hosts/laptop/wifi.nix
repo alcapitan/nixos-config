@@ -107,6 +107,5 @@
     };
   };
 
-  # TODO: dupliquer des connexions pour utiliser dns/vpn spécifique
-  # TODO: documenter comment j'ai extrait les profils network-manager
+  # * pour extraire les profils NetworkManager : sudo nix run github:Janik-Haag/nm2nix
 }
