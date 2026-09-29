@@ -67,6 +67,34 @@
     };
   };
 
+  programs.plasma.window-rules = [
+    {
+      description = "Incrustation vidéo toujours au premier plan";
+      match = {
+        window-types = [ "normal" ];
+        title = {
+          value = "Incrustation vidéo";
+          type = "substring";
+        };
+      };
+      apply = {
+        # Maintient la fenêtre au-dessus de toutes les autres
+        above = {
+          value = true;
+          apply = "force";
+        };
+        size = {
+          value = "250,140";
+          apply = "initially";
+        };
+        position = {
+          value = "0,895";
+          apply = "initially";
+        };
+      };
+    }
+  ];
+
   programs.plasma.workspace = {
     colorScheme = "BreezeDark";
     theme = "breeze-dark";
