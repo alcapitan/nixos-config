@@ -55,6 +55,14 @@
     numlockOnStartup = "on";
   };
 
+  /*
+  programs.plasma.configFile."merkuro.calendarrc" = {
+    GlobalCollectionSelection = {
+      Selection = "c24,c27,c26,c25,c23,c6";
+    };
+  };
+  */
+
   programs.plasma.krunner = {
     position = "center";
   };

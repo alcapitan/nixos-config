@@ -16,6 +16,7 @@
   services.fstrim.enable = true;
 
   # Bootloader spécifique à cette machine
+  # TODO: créer une seconde partition de boot détaché de windows pour résoudre les conflits d'overwriting (et désactuver debian de le faire)
   boot.loader.systemd-boot = {
     enable = true;
     configurationLimit = 10;

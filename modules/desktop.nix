@@ -61,7 +61,7 @@
     gparted
     ntfs3g
     pinentry-qt
-    kdePackages.bluedevil
+    kdePackages.bluedevil # bluetui
     pkgs-unstable.proton-vpn
     android-tools # pour le transfert de fichiers avec adb + l'exécution android pour programmation
     wl-clipboard

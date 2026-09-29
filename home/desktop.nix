@@ -7,14 +7,13 @@
 
   home.packages = with pkgs; [
     # Applications principales
-    brave #! deprecated
-    firefox #! deprecated
+    brave # ! deprecated
+    firefox # ! deprecated
     # librewolf
     thunderbird
     libreoffice-qt
-    vlc
-    vscode #! deprecated
-    # pkgs-unstable.zed-editor
+    vlc # mpv / cmus
+    vscode # ! deprecated
     beeper
     discord
     pkgs-unstable.proton-authenticator
