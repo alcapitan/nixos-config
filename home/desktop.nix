@@ -337,6 +337,7 @@
 
   # Démarrage automatique d'application au démarrage de la session user
   xdg.configFile."autostart/proton.vpn.app.gtk.desktop".source = "${pkgs.proton-vpn}/share/applications/proton.vpn.app.gtk.desktop";
+  xdg.configFile."autostart/beepertexts.desktop".source = "${pkgs.beeper}/share/applications/beepertexts.desktop";
 
   # pour le développement android
   home.sessionVariables = {
