@@ -59,7 +59,7 @@
   environment.systemPackages = with pkgs; [
     virt-manager
     gparted
-    ntfs3g
+    e2fsprogs # pour lsattr et chattr ; pour une gestion des droits avancée
     sbctl
     pinentry-qt
     kdePackages.bluedevil # bluetui
@@ -69,7 +69,6 @@
   ];
   environment.plasma6.excludePackages = with pkgs.kdePackages; [
     discover
-    gwenview
   ];
 
   programs.gnupg.agent = {
