@@ -4,6 +4,7 @@
   # * configuration plasma (mis à jour à l'extinction système) : cat ~/.config/plasma-org.kde.plasma.desktop-appletsrc
   # * documentation : https://nix-community.github.io/plasma-manager/options.html
   # * extrait la configuration actuelle : nix run github:nix-community/plasma-manager/trunk#rc2nix
+  # * pour voir la config actuelle des fenêtres : qdbus org.kde.KWin /KWin org.kde.KWin.showDebugConsole
 
   programs.plasma = {
     enable = true; # ! obligatoire car conditionne les instructions suivantes
