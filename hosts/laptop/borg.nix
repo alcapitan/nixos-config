@@ -19,6 +19,7 @@
         };
         compression = "auto,zstd,6";
         startAt = "daily";
+        persistentTimer = true;
 
         archiveBaseName = null;
         dateFormat = "+%Y-%m-%d_%H:%M:%S";
