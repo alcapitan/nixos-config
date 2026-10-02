@@ -4,6 +4,10 @@
     inputs = {
         nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
         nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+        lanzaboote = {
+            url = "github:nix-community/lanzaboote/v1.2.0";
+            inputs.nixpkgs.follows = "nixpkgs";
+        };
         home-manager = {
             url = "github:nix-community/home-manager/release-26.05";
             inputs.nixpkgs.follows = "nixpkgs";
@@ -19,7 +23,7 @@
         };
     };
 
-    outputs = { self, nixpkgs, nixpkgs-unstable, sops-nix, home-manager, plasma-manager, ... }@inputs:
+    outputs = { self, nixpkgs, nixpkgs-unstable, lanzaboote, sops-nix, home-manager, plasma-manager, ... }@inputs:
         let
             system = "x86_64-linux";
             pkgs = nixpkgs.legacyPackages.${system};
@@ -46,6 +50,7 @@
                     };
 
                     modules = [
+                        lanzaboote.nixosModules.lanzaboote
                         sops-nix.nixosModules.sops
                         home-manager.nixosModules.home-manager
                         ./common/default.nix

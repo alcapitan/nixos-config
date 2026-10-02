@@ -60,6 +60,7 @@
     virt-manager
     gparted
     ntfs3g
+    sbctl
     pinentry-qt
     kdePackages.bluedevil # bluetui
     pkgs-unstable.proton-vpn

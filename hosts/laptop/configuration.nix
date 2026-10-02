@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 
 {
   imports = [
@@ -17,15 +17,20 @@
 
   # Bootloader spécifique à cette machine
   # TODO: créer une seconde partition de boot détaché de windows pour résoudre les conflits d'overwriting (et désactuver debian de le faire)
-  boot.loader.systemd-boot = {
+  /* boot.loader.systemd-boot = {
     enable = true;
-    configurationLimit = 10;
-    extraEntries = {
+    extraEntries = { # TODO: à porter sur lanzaboote
       "debian.conf" = ''
         title Debian rescue
         efi   /EFI/debian/grubx64.efi
       '';
     };
+    }; */
+  boot.loader.systemd-boot.enable = lib.mkForce false;
+  boot.lanzaboote = { # équivalent de systemd-boot avec support secureboot
+    enable = true;
+    configurationLimit = 10;
+    pkiBundle = "/var/lib/sbctl";
   };
   boot.initrd.systemd.network.wait-online.enable = false;
   boot.loader.efi.canTouchEfiVariables = true;
