@@ -88,7 +88,7 @@
         ];
         environment = {
           "POSTGRES_USER" = "postgres";
-          "POSTGRES_PASSWORD" = "zDCwXjIzO578XPMz--lBlr2e";
+          "POSTGRES_PASSWORD" = "zDCwXjIzO578XPMz--lBlr2e"; # TODO: publié en clair, à modifier et à rentrer dans sops
           "POSTGRES_DB" = "immich";
           "POSTGRES_INITDB_ARGS" = "--data-checksums";
           "DB_STORAGE_TYPE" = "SSD";
