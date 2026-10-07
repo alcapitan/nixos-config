@@ -29,7 +29,12 @@
             pkgs = nixpkgs.legacyPackages.${system};
             pkgs-unstable = import nixpkgs-unstable {
               inherit system;
-              config.allowUnfree = true;
+              config = {
+                allowUnfree = true;
+                permittedInsecurePackages = [
+                  "ventoy-qt5-1.1.17"
+                ];
+              };
             };
         in
         {

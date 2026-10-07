@@ -66,6 +66,7 @@
     pkgs-unstable.proton-vpn
     android-tools # pour le transfert de fichiers avec adb + l'exécution android pour programmation
     wl-clipboard
+    pkgs-unstable.ventoy-full-qt
   ];
   environment.plasma6.excludePackages = with pkgs.kdePackages; [
     discover

@@ -18,6 +18,8 @@
     discord
     pkgs-unstable.proton-authenticator
     organicmaps
+    rustdesk
+    filezilla
 
     # Design / Multimédia
     inkscape
