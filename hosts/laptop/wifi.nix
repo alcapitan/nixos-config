@@ -8,11 +8,15 @@
     "home/password" = { sopsFile = ./wifi_credentials.yaml; };
     "phone_hotspot/ssid" = { sopsFile = ./wifi_credentials.yaml; };
     "phone_hotspot/password" = { sopsFile = ./wifi_credentials.yaml; };
-    "gene/ssid" = { sopsFile = ./wifi_credentials.yaml; };
-    "gene/password" = { sopsFile = ./wifi_credentials.yaml; };
     "univ/ssid" = { sopsFile = ./wifi_credentials.yaml; };
     "univ/identity" = { sopsFile = ./wifi_credentials.yaml; };
     "univ/password" = { sopsFile = ./wifi_credentials.yaml; };
+    "gene/ssid" = { sopsFile = ./wifi_credentials.yaml; };
+    "gene/password" = { sopsFile = ./wifi_credentials.yaml; };
+    "mt-andre/ssid" = { sopsFile = ./wifi_credentials.yaml; };
+    "mt-andre/password" = { sopsFile = ./wifi_credentials.yaml; };
+    "celine/ssid" = { sopsFile = ./wifi_credentials.yaml; };
+    "celine/password" = { sopsFile = ./wifi_credentials.yaml; };
   };
 
   sops.templates."wifi.env".content = ''
@@ -20,11 +24,15 @@
     HOME_PASSWORD=${config.sops.placeholder."home/password"}
     PHONE_SSID=${config.sops.placeholder."phone_hotspot/ssid"}
     PHONE_PASSWORD=${config.sops.placeholder."phone_hotspot/password"}
-    GENE_SSID=${config.sops.placeholder."gene/ssid"}
-    GENE_PASSWORD=${config.sops.placeholder."gene/password"}
     UNIV_SSID=${config.sops.placeholder."univ/ssid"}
     UNIV_IDENTITY=${config.sops.placeholder."univ/identity"}
     UNIV_PASSWORD=${config.sops.placeholder."univ/password"}
+    GENE_SSID=${config.sops.placeholder."gene/ssid"}
+    GENE_PASSWORD=${config.sops.placeholder."gene/password"}
+    MTANDRE_SSID=${config.sops.placeholder."mt-andre/ssid"}
+    MTANDRE_PASSWORD=${config.sops.placeholder."mt-andre/password"}
+    CELINE_SSID=${config.sops.placeholder."celine/ssid"}
+    CELINE_PASSWORD=${config.sops.placeholder."celine/password"}
   '';
 
   networking.networkmanager = {
@@ -66,22 +74,6 @@
           };
         };
 
-        "gene" = {
-          connection = {
-            id = "Gene";
-            type = "wifi";
-            autoconnect = true;
-          };
-          wifi = {
-            mode = "infrastructure";
-            ssid = "$GENE_SSID";
-          };
-          wifi-security = {
-            key-mgmt = "wpa-psk";
-            psk = "$GENE_PASSWORD";
-          };
-        };
-
         "univ" = {
           connection = {
             id = "Univ";
@@ -101,6 +93,54 @@
             anonymous-identity = "anonymous@univ-avignon.fr";
             identity = "$UNIV_IDENTITY";
             password = "$UNIV_PASSWORD";
+          };
+        };
+
+        "gene" = {
+          connection = {
+            id = "Gene";
+            type = "wifi";
+            autoconnect = true;
+          };
+          wifi = {
+            mode = "infrastructure";
+            ssid = "$GENE_SSID";
+          };
+          wifi-security = {
+            key-mgmt = "wpa-psk";
+            psk = "$GENE_PASSWORD";
+          };
+        };
+
+        "mt-andre" = {
+          connection = {
+            id = "MT & André";
+            type = "wifi";
+            autoconnect = true;
+          };
+          wifi = {
+            mode = "infrastructure";
+            ssid = "$MTANDRE_SSID";
+          };
+          wifi-security = {
+            key-mgmt = "wpa-psk";
+            psk = "$MTANDRE_PASSWORD";
+          };
+        };
+
+        "celine" = {
+          connection = {
+            id = "Céline";
+            type = "wifi";
+            autoconnect = true;
+          };
+          wifi = {
+            mode = "infrastructure";
+            ssid = "$CELINE_SSID";
+          };
+          wifi-security = {
+            key-mgmt = "wpa-psk";
+            psk = "$CELINE_PASSWORD";
           };
         };
       };
