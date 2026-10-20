@@ -35,8 +35,8 @@
     pdftk
     imagemagick
     nerd-fonts.jetbrains-mono
-
-    pkgs-unstable.cloudflared
+    claude-code
+    gemini-cli
 
     # Self-made commands
     (pkgs.writeShellScriptBin "ytm-download" ''
