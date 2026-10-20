@@ -8,7 +8,7 @@
 
   programs.plasma = {
     enable = true; # ! obligatoire car conditionne les instructions suivantes
-    overrideConfig = true; #! destructive
+    overrideConfig = true; # ! destructive
   };
 
   # Powerdevil est le daemon batterie propre à Plasma, chaque bureau a le sien
@@ -57,11 +57,11 @@
   };
 
   /*
-  programs.plasma.configFile."merkuro.calendarrc" = {
-    GlobalCollectionSelection = {
-      Selection = "c24,c27,c26,c25,c23,c6";
+    programs.plasma.configFile."merkuro.calendarrc" = {
+      GlobalCollectionSelection = {
+        Selection = "c24,c27,c26,c25,c23,c6";
+      };
     };
-  };
   */
 
   programs.plasma.krunner = {

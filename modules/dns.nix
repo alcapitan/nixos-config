@@ -70,7 +70,7 @@
   networking.nameservers = [ "::1" "127.0.0.1" ]; # Définit les serveurs DNS de la machine
   networking.networkmanager.dns = "none"; # Empêche NetworkManager d'écraser /etc/resolv.conf lors des connexions Wi-Fi / DHCP
   networking.dhcpcd.enable = false;  # Empêche dhcpcd ou d'autres hooks DHCP d'altérer resolv.conf
-  
+
   # Restauration du cache au démarrage & Sauvegarde du cache à l'arrêt
   systemd.services.unbound = {
     serviceConfig = {
@@ -96,25 +96,24 @@
     };
   };
 
-
   /**
-  nix shell nixpkgs#dig
+    nix shell nixpkgs#dig
 
-  # Tester la résolution
-  dig @::1 google.com AAAA
-  dig @127.0.0.1 google.com A
-  dig alcapitan.local
-  > Regarder query time (temps de réponse)
+    # Tester la résolution
+    dig @::1 google.com AAAA
+    dig @127.0.0.1 google.com A
+    dig alcapitan.local
+    > Regarder query time (temps de réponse)
 
-  # Voir le contenu du cache
-  sudo unbound-control -s /run/unbound/unbound.ctl dump_cache | less
-  sudo unbound-control -s /run/unbound/unbound.ctl dump_cache \
-  | awk '$3 == "IN" { printf "%-35s %-8s %-8s %s\n", $1, $4, $2"s", $5 }' \
-  | sort -k1,1 \
-  | column -t -N "DOMAINE,TYPE,TTL,VALEUR" \
-  | less
+    # Voir le contenu du cache
+    sudo unbound-control -s /run/unbound/unbound.ctl dump_cache | less
+    sudo unbound-control -s /run/unbound/unbound.ctl dump_cache \
+    | awk '$3 == "IN" { printf "%-35s %-8s %-8s %s\n", $1, $4, $2"s", $5 }' \
+    | sort -k1,1 \
+    | column -t -N "DOMAINE,TYPE,TTL,VALEUR" \
+    | less
 
-  # Voir le contenu de la sauvegarde
-  sudo cat /var/lib/unbound/cache.dump
+    # Voir le contenu de la sauvegarde
+    sudo cat /var/lib/unbound/cache.dump
   */
 }

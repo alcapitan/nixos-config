@@ -54,11 +54,13 @@
 
   # Restreindre la visibilité des processus (hidepid=2)
   security.protectKernelImage = true;
-  /*fileSystems."/proc" = { # TODO: à supprimer ou remanier
-    device = "proc";
-    fsType = "proc";
-    options = [ "nosuid" "nodev" "noexec" "hidepid=2" ];
-  };*/
+  /*
+    fileSystems."/proc" = { # TODO: à supprimer ou remanier
+      device = "proc";
+      fsType = "proc";
+      options = [ "nosuid" "nodev" "noexec" "hidepid=2" ];
+    };
+  */
 
   system.autoUpgrade = {
     enable = true;
@@ -86,24 +88,26 @@
     "d /var/lib/srv/immich/postgres 0700 999 999 -" # uid de postgres dans l'image
   ];
 
-  /* # quotas
+  /*
+    # quotas
 
-  TODO: à remettre en place (et sectionner le fichier ?)
+    TODO: à remettre en place (et sectionner le fichier ?)
 
-  fileSystems."/" = {
-    options = [ "defaults" "usrquota" ];
-  };
+    fileSystems."/" = {
+      options = [ "defaults" "usrquota" ];
+    };
 
-  security.pam.loginLimits = [
-    { domain = "*"; type = "soft"; item = "nproc"; value = "100"; } # pas plus de 100 processus par user
-    { domain = "*"; type = "hard"; item = "nproc"; value = "300"; } # pas plus de 300 processus par user
-    { domain = "*"; type = "soft"; item = "fsize"; value = "3145728"; } # taille max fichier 3 Go
-    { domain = "*"; type = "hard"; item = "fsize"; value = "6291456"; } # taille max fichier 6 Go
-    { domain = "*"; type = "hard"; item = "memlock"; value = "524288"; } # pas plus de 512Mo RAM par user
-    { domain = "*"; type = "hard"; item = "cpu"; value = "30"; } # pas plus de 30 minutes de CPU
-    { domain = "root"; type = "hard"; item = "nproc"; value = "unlimited"; } # désactive restriction processus pour root
-    { domain = "root"; type = "soft"; item = "nproc"; value = "unlimited"; }
-  ];*/
+    security.pam.loginLimits = [
+      { domain = "*"; type = "soft"; item = "nproc"; value = "100"; } # pas plus de 100 processus par user
+      { domain = "*"; type = "hard"; item = "nproc"; value = "300"; } # pas plus de 300 processus par user
+      { domain = "*"; type = "soft"; item = "fsize"; value = "3145728"; } # taille max fichier 3 Go
+      { domain = "*"; type = "hard"; item = "fsize"; value = "6291456"; } # taille max fichier 6 Go
+      { domain = "*"; type = "hard"; item = "memlock"; value = "524288"; } # pas plus de 512Mo RAM par user
+      { domain = "*"; type = "hard"; item = "cpu"; value = "30"; } # pas plus de 30 minutes de CPU
+      { domain = "root"; type = "hard"; item = "nproc"; value = "unlimited"; } # désactive restriction processus pour root
+      { domain = "root"; type = "soft"; item = "nproc"; value = "unlimited"; }
+    ];
+  */
 
   # TODO: installer Cloudflared !! et tester à appliquer le token..
 }

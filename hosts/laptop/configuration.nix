@@ -17,7 +17,8 @@
 
   # Bootloader spécifique à cette machine
   # TODO: créer une seconde partition de boot détaché de windows pour résoudre les conflits d'overwriting (et désactuver debian de le faire)
-  /* boot.loader.systemd-boot = {
+  /*
+    boot.loader.systemd-boot = {
     enable = true;
     extraEntries = { # TODO: à porter sur lanzaboote
       "debian.conf" = ''
@@ -25,7 +26,8 @@
         efi   /EFI/debian/grubx64.efi
       '';
     };
-    }; */
+    };
+  */
   boot.loader.systemd-boot.enable = lib.mkForce false;
   boot.lanzaboote = { # équivalent de systemd-boot avec support secureboot
     enable = true;
