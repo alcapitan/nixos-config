@@ -29,7 +29,7 @@
   boot.loader.systemd-boot.enable = lib.mkForce false;
   boot.lanzaboote = { # équivalent de systemd-boot avec support secureboot
     enable = true;
-    configurationLimit = 10;
+    configurationLimit = 10; # Measured boot le limite à 4 démarrables, mais les 10 générations restent accessibles en session ouverte
     pkiBundle = "/var/lib/sbctl";
   };
   boot.initrd.systemd.network.wait-online.enable = false;
