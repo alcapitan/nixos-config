@@ -42,36 +42,40 @@
         config.sops.templates."wifi.env".path
       ];
       profiles = {
+        "ethernet" = {
+          connection = {
+            id = "Ethernet";
+            type = "ethernet";
+            interface-name = "eno1";
+          };
+        };
+
+        "usb" = {
+          connection = {
+            id = "USB";
+            type = "ethernet";
+          };
+          match = {
+            interface-name = "enp0s20f0u[1-3]*";
+          };
+        };
+
         "home" = {
           connection = {
             id = "Maison";
             type = "wifi";
-            autoconnect = true;
           };
-          wifi = {
-            mode = "infrastructure";
-            ssid = "$HOME_SSID";
-          };
-          wifi-security = {
-            key-mgmt = "wpa-psk";
-            psk = "$HOME_PASSWORD";
-          };
+          wifi.ssid = "$HOME_SSID";
+          wifi-security.psk = "$HOME_PASSWORD";
         };
 
         "hotspot" = {
           connection = {
             id = "Partage de connexion";
             type = "wifi";
-            autoconnect = true;
           };
-          wifi = {
-            mode = "infrastructure";
-            ssid = "$PHONE_SSID";
-          };
-          wifi-security = {
-            key-mgmt = "wpa-psk";
-            psk = "$PHONE_PASSWORD";
-          };
+          wifi.ssid = "$PHONE_SSID";
+          wifi-security.psk = "$PHONE_PASSWORD";
         };
 
         "univ" = {
@@ -100,48 +104,27 @@
           connection = {
             id = "Gene";
             type = "wifi";
-            autoconnect = true;
           };
-          wifi = {
-            mode = "infrastructure";
-            ssid = "$GENE_SSID";
-          };
-          wifi-security = {
-            key-mgmt = "wpa-psk";
-            psk = "$GENE_PASSWORD";
-          };
+          wifi.ssid = "$GENE_SSID";
+          wifi-security.psk = "$GENE_PASSWORD";
         };
 
         "mt-andre" = {
           connection = {
             id = "MT & André";
             type = "wifi";
-            autoconnect = true;
           };
-          wifi = {
-            mode = "infrastructure";
-            ssid = "$MTANDRE_SSID";
-          };
-          wifi-security = {
-            key-mgmt = "wpa-psk";
-            psk = "$MTANDRE_PASSWORD";
-          };
+          wifi.ssid = "$MTANDRE_SSID";
+          wifi-security.psk = "$MTANDRE_PASSWORD";
         };
 
         "celine" = {
           connection = {
             id = "Céline";
             type = "wifi";
-            autoconnect = true;
           };
-          wifi = {
-            mode = "infrastructure";
-            ssid = "$CELINE_SSID";
-          };
-          wifi-security = {
-            key-mgmt = "wpa-psk";
-            psk = "$CELINE_PASSWORD";
-          };
+          wifi.ssid = "$CELINE_SSID";
+          wifi-security.psk = "$CELINE_PASSWORD";
         };
       };
     };
