@@ -88,4 +88,33 @@
   };
 
   environment.etc."wallpaper.jpg".source = ../assets/wallpaper.jpg;
+
+  virtualisation.docker.enable = true;
+  users.users.alex.extraGroups = [ "docker" ];
+
+  programs.fuse.userAllowOther = true;
+
+  # TODO: à finir..
+  /*
+    fileSystems."/home/alex/vps" = {
+    device = "alex@ssh.alcapitan.me:/home/alex";
+    fsType = "fuse.sshfs";
+    options = [
+      "noauto"
+      "x-systemd.automount"
+      "x-systemd.idle-timeout=10min"
+      "_netdev"
+      "allow_other"
+      "uid=1000"
+      "gid=100"
+      "reconnect"
+      "ServerAliveInterval=15"
+      "ServerAliveCountMax=3"
+      "IdentityFile=/chemin/vers/cle_privee"
+      # Si le passage par cloudflared est nécessaire :
+      "ProxyCommand=${pkgs.cloudflared}/bin/cloudflared access ssh --hostname ssh.alcapitan.me"
+      "StrictHostKeyChecking=accept-new"
+    ];
+    };
+  */
 }
