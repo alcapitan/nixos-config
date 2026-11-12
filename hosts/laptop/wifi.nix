@@ -66,7 +66,10 @@
             type = "wifi";
           };
           wifi.ssid = "$HOME_SSID";
-          wifi-security.psk = "$HOME_PASSWORD";
+          wifi-security = {
+            key-mgmt = "wpa-psk";
+            psk = "$HOME_PASSWORD";
+          };
         };
 
         "hotspot" = {
@@ -75,7 +78,10 @@
             type = "wifi";
           };
           wifi.ssid = "$PHONE_SSID";
-          wifi-security.psk = "$PHONE_PASSWORD";
+          wifi-security = {
+            key-mgmt = "wpa-psk";
+            psk = "$PHONE_PASSWORD";
+          };
         };
 
         "univ" = {
@@ -106,16 +112,22 @@
             type = "wifi";
           };
           wifi.ssid = "$GENE_SSID";
-          wifi-security.psk = "$GENE_PASSWORD";
+          wifi-security = {
+            key-mgmt = "wpa-psk";
+            psk = "$GENE_PASSWORD";
+          };
         };
 
         "mt-andre" = {
           connection = {
-            id = "MT & André";
+            id = "MT et André";
             type = "wifi";
           };
           wifi.ssid = "$MTANDRE_SSID";
-          wifi-security.psk = "$MTANDRE_PASSWORD";
+          wifi-security = {
+            key-mgmt = "wpa-psk";
+            psk = "$MTANDRE_PASSWORD";
+          };
         };
 
         "celine" = {
@@ -124,7 +136,10 @@
             type = "wifi";
           };
           wifi.ssid = "$CELINE_SSID";
-          wifi-security.psk = "$CELINE_PASSWORD";
+          wifi-security = {
+            key-mgmt = "wpa-psk";
+            psk = "$CELINE_PASSWORD";
+          };
         };
       };
     };
