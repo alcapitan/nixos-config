@@ -70,6 +70,8 @@
     docker
     pkgs.sshfs
     pkgs-unstable.cloudflared
+    hunspell # correcteur linguistique
+    hunspellDicts.fr-moderne
   ];
   environment.plasma6.excludePackages = with pkgs.kdePackages; [
     discover
