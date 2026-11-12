@@ -64,6 +64,8 @@
     hyperfine # remplace time, donc pour des benchmarks
     nh # remplace nixos-rebuild
     nix-output-monitor # pour l'arbre de reconstruction de nh
+    jq # parser de json
+    glow # lecteur markdown
 
     (pkgs.writeShellScriptBin "copy" ''
       if [ -n "$WAYLAND_DISPLAY" ]; then

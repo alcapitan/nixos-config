@@ -35,8 +35,10 @@
     pdftk
     imagemagick
     nerd-fonts.jetbrains-mono
-    claude-code
-    gemini-cli
+    pkgs-unstable.claude-code
+    pkgs-unstable.antigravity-cli
+    pkgs-unstable.antigravity-ide
+    pkgs-unstable.antigravity-hub
 
     # Self-made commands
     (pkgs.writeShellScriptBin "ytm-download" ''
