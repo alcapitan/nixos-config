@@ -13,11 +13,12 @@
     thunderbird
     libreoffice-qt
     vlc # mpv / cmus
-    vscode # ! deprecated
+    pkgs-unstable.vscode # ! deprecated
     beeper
     discord
     pkgs-unstable.proton-authenticator
     organicmaps
+    qgis
     rustdesk
     filezilla
 

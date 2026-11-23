@@ -35,6 +35,7 @@
   };
 
   nixpkgs.config.allowUnfree = true;
+  programs.nix-ld.enable = true;
 
   # Paquets système disponibles partout (même sur le VPS)
   environment.systemPackages = with pkgs; [

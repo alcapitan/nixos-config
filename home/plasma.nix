@@ -291,6 +291,7 @@
     filelight
     kcalc
     plasma-browser-integration
+    kdeconnect-kde
     kdepim-runtime
     kdepim-addons
     akonadi
