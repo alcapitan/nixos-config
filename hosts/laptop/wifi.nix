@@ -47,6 +47,7 @@
             id = "Ethernet";
             type = "ethernet";
             interface-name = "eno1";
+            autoconnect-priority = 80;
           };
         };
 
@@ -54,6 +55,7 @@
           connection = {
             id = "USB";
             type = "ethernet";
+            autoconnect-priority = 100;
           };
           match = {
             interface-name = "enp0s20f0u[1-3]*";
@@ -76,6 +78,7 @@
           connection = {
             id = "Partage de connexion";
             type = "wifi";
+            autoconnect-priority = 100;
           };
           wifi.ssid = "$PHONE_SSID";
           wifi-security = {
