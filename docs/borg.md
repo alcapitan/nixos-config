@@ -17,11 +17,13 @@ export BORG_PASSCOMMAND="cat /var/lib/secrets/borg-repo-password"
 ### Lister les archives
 
 Lister toutes les archives existantes dans le dépôt :
+
 ```bash
 borg list borg-repo:pc
 ```
 
 Lister le contenu d'une archive :
+
 ```bash
 borg list borg-repo:pc::<archive_id>
 ```
@@ -29,11 +31,13 @@ borg list borg-repo:pc::<archive_id>
 ### Statistiques
 
 Voir l'espace utilisé par le dépôt :
+
 ```bash
 borg info borg-repo:pc
 ```
 
 Voir l'espace utilisé par une archive :
+
 ```bash
 borg info borg-repo:pc::<archive_id>
 ```
@@ -41,17 +45,20 @@ borg info borg-repo:pc::<archive_id>
 ### Voir le contenu d'une archive
 
 Monter l'ensemble du dépôt avec chaque archive :
+
 ```bash
 mkdir -p ~/tmp/borg
 borg mount borg-repo:pc ~/tmp/borg
 ```
 
 Monter une archive spécifique :
+
 ```bash
 borg mount borg-repo:pc::<archive_id> ~/tmp/borg
 ```
 
 Démonter :
+
 ```bash
 borg umount ~/tmp/borg
 ```
@@ -61,11 +68,13 @@ borg umount ~/tmp/borg
 > L'extraction se fait du point de vue du répertoire courant !
 
 Extraire toute l'archive :
+
 ```bash
 borg extract borg-repo:pc::<archive_id>
 ```
 
 Extraire uniquement un dossier précis :
+
 ```bash
 borg extract borg-repo:pc::<archive_id> home/alex/folder
 ```
@@ -77,10 +86,10 @@ borg recreate --verbose --progress \
   --exclude 'home/alex/chemin/vers/truc-a-supprimer'
 ```
 
-
 ### Créer une sauvegarde manuellement
 
 Pour lancer une sauvegarde manuelle avec les mêmes chemins et exclusions que la configuration automatique :
+
 ```bash
 borg create --verbose --stats --progress \
   --compression auto,zstd,6 \
@@ -103,7 +112,8 @@ borg rename borg-repo:pc::<archive_id_before> <archive_id_after>
 
 ### Supprimer d'anciennes archives
 
-Suivant la configuration automatique : 
+Suivant la configuration automatique :
+
 ```bash
 borg prune borg-repo:pc --dry-run --list \
   --keep-within 1d \
@@ -115,6 +125,7 @@ borg prune borg-repo:pc --dry-run --list \
 ### Comparer deux sauvegardes
 
 Comparer le contenu de deux archives :
+
 ```bash
 borg diff borg-repo:pc::<archive_id_before> <archive_id_after>
 ```
@@ -122,77 +133,113 @@ borg diff borg-repo:pc::<archive_id_before> <archive_id_after>
 ### Vérification & Maintenance
 
 Vérifier l'intégrité du dépôt :
+
 ```bash
 borg check borg-repo:pc
 ```
 
 Libérer le verrou en cas d'interruption anormale (ex: crash machine, coupure réseau) :
+
 ```bash
 borg break-lock borg-repo:pc
 ```
 
 Libère les chunks inutiles après suppression de leurs archives :
+
 ```bash
 borg compact borg-repo:pc
 ```
 
 ### Chiffrage
 
-Modifier le mot de passe du dépôt : 
+Modifier le mot de passe du dépôt :
+
 ```bash
 borg key borg-repo:pc change-passphrase
 ```
+
 > Penser aussi à mettre à jour `/var/lib/secrets/borg-repo-password`
 
-Exporter la clé du dépôt en cas de corruption du dépot distant : 
+Exporter la clé du dépôt en cas de corruption du dépot distant :
+
 ```bash
 borg key export borg-repo:pc borg-repo-key-backup.txt
 
 # ou en caractères lisibles
 borg key export --paper borg-repo:pc
 ```
-Puis importer la clé pour sauver le dépôt : 
+
+Puis importer la clé pour sauver le dépôt :
+
 ```bash
 borg key import borg-repo:pc borg-repo-key-backup.txt
 ```
 
 ## Gestion avec Systemd
 
-### Automatisation
+### Fonctionnement de l'automatisation (Laptop)
 
-Lancer immédiatement la sauvegarde :
+Sur le laptop `hosts/laptop/borg.nix`, la sauvegarde est gérée avec des sécurités adaptées à la mobilité :
+
+- **Déclenchement au login :** Le timer `borgbackup-job-backup.timer` est attaché à `user@1000.service` et s'active 1 minute après la connexion de l'utilisateur `alex` (au lieu du boot de la machine).
+- **Une seule exécution par jour :** Le service déclencheur `borgbackup-job-backup-scheduled.service` vérifie la date dans `/root/.cache/borg/last-backup-date`. Si une sauvegarde a déjà réussi aujourd'hui, l'exécution automatique est passée silencieusement (`ExecCondition`).
+- **Attente active du réseau :** Un script de pré-vérification (`preHook`) teste la joignabilité du serveur Borg au DNS de mettre en place ses routes.
+- **Résilience SSH :** Options `ServerAliveInterval=15` et `ConnectTimeout=30` pour maintenir la session active pour détecter rapidement et proprement les coupures.
+
+### Commandes usuelles
+
+Lancer immédiatement une sauvegarde manuelle (force l'exécution même si elle a déjà tourné aujourd'hui) :
+
 ```bash
 sudo systemctl start borgbackup-job-backup.service
 ```
 
-Vérifier le statut du service :
+Vérifier le statut du service principal :
+
 ```bash
 systemctl status borgbackup-job-backup.service
 ```
 
+Vérifier le statut du déclencheur automatique (utile pour voir si la sauvegarde du jour a été ignorée) :
+
+```bash
+systemctl status borgbackup-job-backup-scheduled.service
+```
+
 Afficher les journaux en direct :
+
 ```bash
 journalctl -u borgbackup-job-backup.service -f
 ```
 
 Afficher l'historique des journaux :
+
 ```bash
 journalctl -u borgbackup-job-backup.service
 ```
 
-Voir la date de la prochaine exécution planifiée :
+Voir le statut du timer :
+
 ```bash
 systemctl list-timers | grep borgbackup
+```
+
+Consulter la date de la dernière sauvegarde réussie :
+
+```bash
+sudo cat /root/.cache/borg/last-backup-date
 ```
 
 ### Tester les notifications de bureau
 
 Tester la notification de succès :
+
 ```bash
 sudo systemctl start borgbackup-job-backup-success-notify.service
 ```
 
 Tester la notification d'échec :
+
 ```bash
 sudo systemctl start borgbackup-job-backup-failure-notify.service
 ```

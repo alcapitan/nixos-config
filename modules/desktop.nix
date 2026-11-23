@@ -7,6 +7,7 @@
   ];
 
   # Réseau et Bluetooth
+  systemd.network.wait-online.enable = true; # network-online.target de systemd sera validé quand la connexion sera vraiment effective
   networking.networkmanager.enable = true;
   hardware.bluetooth.enable = true;
 
