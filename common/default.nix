@@ -3,6 +3,7 @@
 {
   imports = [
     ./users.nix
+    ./scripts.nix
   ];
 
   # Fonctionnalités expérimentales (Flakes)
@@ -37,7 +38,7 @@
   nixpkgs.config.allowUnfree = true;
   programs.nix-ld.enable = true;
 
-  # Paquets système disponibles partout (même sur le VPS)
+  # Paquets système disponibles partout (même sur le serveur)
   environment.systemPackages = with pkgs; [
     tree
     git
@@ -67,46 +68,6 @@
     nix-output-monitor # pour l'arbre de reconstruction de nh
     jq # parser de json
     glow # lecteur markdown
-
-    (pkgs.writeShellScriptBin "copy" ''
-      if [ -n "$WAYLAND_DISPLAY" ]; then
-        # retire le saut de ligne en fin s'il existe
-        exec wl-copy -n
-      else
-        # Détermination du chemin du fichier
-        if [ -d "$HOME/tmp" ]; then
-          CLIP_FILE="$HOME/tmp/clip.txt"
-        else
-          CLIP_FILE="/tmp/clip.txt"
-        fi
-
-        # retire le saut de ligne en fin (pour tty)
-        # CONTENT=$(cat)
-        # Écrit la sortie de la commande dans le fichier (le crée s'il n'existe pas)
-        cat > "$CLIP_FILE"
-        echo "Copié dans $CLIP_FILE" >&2
-      fi
-    '')
-
-    (pkgs.writeShellScriptBin "paste" ''
-      if [ -n "$WAYLAND_DISPLAY" ]; then
-        exec wl-paste
-      else
-        # Détermination du même chemin
-        if [ -d "$HOME/tmp" ]; then
-          CLIP_FILE="$HOME/tmp/clip.txt"
-        else
-          CLIP_FILE="/tmp/clip.txt"
-        fi
-
-        # Vérifie si le fichier existe et n'est pas vide avant de l'afficher
-        if [ -f "$CLIP_FILE" ]; then
-          cat "$CLIP_FILE"
-        else
-          echo "Presse-papier vide" >&2
-        fi
-      fi
-    '')
   ];
 
   systemd.tmpfiles.rules = [

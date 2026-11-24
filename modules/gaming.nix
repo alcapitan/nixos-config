@@ -1,17 +1,25 @@
-{ pkgs, ... }:
+{ config, lib, pkgs, ... }:
+
+with lib;
 
 {
-  # Accélération matérielle graphique
-  hardware.graphics = {
-    enable = true;
-    enable32Bit = true; # Compatibilité jeux 32 bits
+  options.profilGaming = {
+    enable = mkEnableOption "Active l'environnement gaming (Steam, pilotes 32 bits, MangoHud)";
   };
 
-  programs.steam.enable = true;
+  config = mkIf config.profilGaming.enable {
+    # Accélération matérielle graphique
+    hardware.graphics = {
+      enable = true;
+      enable32Bit = true; # Compatibilité jeux 32 bits
+    };
 
-  environment.systemPackages = with pkgs; [
-    protonup-qt
-    mangohud # Overlay FPS/Température
-    melonds
-  ];
+    programs.steam.enable = true;
+
+    environment.systemPackages = with pkgs; [
+      protonup-qt
+      mangohud # Overlay FPS/Température
+      melonds
+    ];
+  };
 }

@@ -177,12 +177,12 @@ borg key import borg-repo:pc borg-repo-key-backup.txt
 
 ## Gestion avec Systemd
 
-### Fonctionnement de l'automatisation (Laptop)
+### Fonctionnement de l'automatisation
 
-Sur le laptop `hosts/laptop/borg.nix`, la sauvegarde est gérée avec des sécurités adaptées à la mobilité :
+La sauvegarde est gérée via le module unifié `modules/borg.nix` (`services.myBorg`), avec des sécurités adaptées à la mobilité sur le laptop (`hosts/laptop/configuration.nix`) :
 
 - **Déclenchement au login :** Le timer `borgbackup-job-backup.timer` est attaché à `user@1000.service` et s'active 1 minute après la connexion de l'utilisateur `alex` (au lieu du boot de la machine).
-- **Une seule exécution par jour :** Le service déclencheur `borgbackup-job-backup-scheduled.service` vérifie la date dans `/root/.cache/borg/last-backup-date`. Si une sauvegarde a déjà réussi aujourd'hui, l'exécution automatique est passée silencieusement (`ExecCondition`).
+- **Une seule exécution par jour :** Le service déclencheur `borgbackup-job-backup-scheduled.service` vérifie la date dans `/var/lib/borg-last-backup-date`. Si une sauvegarde a déjà réussi aujourd'hui, l'exécution automatique est passée silencieusement (`ExecCondition`).
 - **Attente active du réseau :** Un script de pré-vérification (`preHook`) teste la joignabilité du serveur Borg au DNS de mettre en place ses routes.
 - **Résilience SSH :** Options `ServerAliveInterval=15` et `ConnectTimeout=30` pour maintenir la session active pour détecter rapidement et proprement les coupures.
 
@@ -227,7 +227,7 @@ systemctl list-timers | grep borgbackup
 Consulter la date de la dernière sauvegarde réussie :
 
 ```bash
-sudo cat /root/.cache/borg/last-backup-date
+cat /var/lib/borg-last-backup-date
 ```
 
 ### Tester les notifications de bureau

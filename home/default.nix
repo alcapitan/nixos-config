@@ -1,12 +1,15 @@
-{ pkgs, ... }:
+{ pkgs, osConfig, ... }:
 
 {
   home.username = "alex";
   home.homeDirectory = "/home/alex";
   home.stateVersion = "25.11";
 
-  programs.direnv.enable = true;
-  programs.direnv.nix-direnv.enable = true;
+  programs.direnv = {
+    enable = true;
+    nix-direnv.enable = true;
+    config.global.log_format = ""; # cache les logs verbeux au chargement de direnv
+  };
 
   # Configuration du Shell commun
   programs.zsh = {
@@ -111,12 +114,12 @@
   };
 
   home.shellAliases = {
-    nix-switch = "nh os switch /home/alex/nixos-config -H dell3510";
-    nix-test   = "nh os test /home/alex/nixos-config -H dell3510";
-    nix-dry    = "nh os switch /home/alex/nixos-config -H dell3510 --dry";
-    nix-boot   = "nh os boot /home/alex/nixos-config -H dell3510";
-    nix-update = "nh os switch /home/alex/nixos-config -H dell3510 --update";
+    nix-switch = "nh os switch /home/alex/nixos-config -H ${osConfig.networking.hostName}";
+    nix-test   = "nh os test /home/alex/nixos-config -H ${osConfig.networking.hostName}";
+    nix-dry    = "nh os switch /home/alex/nixos-config -H ${osConfig.networking.hostName} --dry";
+    nix-boot   = "nh os boot /home/alex/nixos-config -H ${osConfig.networking.hostName}";
+    nix-update = "nh os switch /home/alex/nixos-config -H ${osConfig.networking.hostName} --update";
     nix-audit  = "vulnix --system --show-description";
-    nix-size   = "nix build /home/alex/nixos-config#nixosConfigurations.dell3510.config.system.build.toplevel --dry-run";
+    nix-size   = "nix build /home/alex/nixos-config#nixosConfigurations.${osConfig.networking.hostName}.config.system.build.toplevel --dry-run";
   };
 }

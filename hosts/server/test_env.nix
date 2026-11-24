@@ -7,7 +7,11 @@
       cores = 2; # 2 vCPU
       diskSize = 40900; # 40 GB Disk
 
-      # graphics = false;
+      # graphics = false; # décommenter pour lancer sans fenêtre QEMU
+      qemu.options = [
+        # Quitte proprement le processus QEMU lors d'un poweroff ou kernel panic invité
+        "-action" "shutdown=poweroff,panic=poweroff"
+      ];
 
       forwardPorts = [
         { from = "host"; host.address = "127.1.0.1"; host.port = 8000; guest.port = 80; }

@@ -34,6 +34,36 @@
         ];
       };
     };
+
+    mkHost = { hostName, extraModules ? [ ], homeModules ? [ ] }:
+      nixpkgs.lib.nixosSystem {
+        inherit system;
+
+        specialArgs = {
+          inherit pkgs-unstable inputs;
+        };
+
+        modules = [
+          sops-nix.nixosModules.sops
+          home-manager.nixosModules.home-manager
+          ./common
+          ./modules/borg.nix
+          ./hosts/${hostName}/configuration.nix
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.backupFileExtension = "backup";
+            home-manager.extraSpecialArgs = {
+              inherit pkgs-unstable inputs;
+            };
+            home-manager.users.alex = {
+              imports = [
+                ./home
+              ] ++ homeModules;
+            };
+          }
+        ] ++ extraModules;
+      };
   in
   {
     devShells.${system}.default = pkgs.mkShell {
@@ -45,57 +75,21 @@
     };
 
     nixosConfigurations = {
-      dell3510 = nixpkgs.lib.nixosSystem {
-        inherit system;
-
-        specialArgs = {
-          inherit pkgs-unstable;
-        };
-
-        modules = [
+      laptop = mkHost {
+        hostName = "laptop";
+        extraModules = [
           lanzaboote.nixosModules.lanzaboote
-          sops-nix.nixosModules.sops
-          home-manager.nixosModules.home-manager
-          ./common/default.nix
           ./modules/dns.nix
           ./modules/desktop.nix
-          ./hosts/laptop/configuration.nix
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.backupFileExtension = "backup";
-            home-manager.extraSpecialArgs = {
-              inherit pkgs-unstable;
-            };
-            home-manager.users.alex = {
-              imports = [
-                plasma-manager.homeModules.plasma-manager
-                ./home/default.nix
-                ./home/desktop.nix
-              ];
-            };
-          }
         ];
-    };
+        homeModules = [
+          plasma-manager.homeModules.plasma-manager
+          ./home/desktop
+        ];
+      };
 
-    vps = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [
-          sops-nix.nixosModules.sops
-          home-manager.nixosModules.home-manager
-          ./common/default.nix
-          ./hosts/server/configuration.nix
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.backupFileExtension = "backup";
-            home-manager.users.alex = {
-              imports = [
-                ./home/default.nix
-              ];
-            };
-          }
-        ];
+      server = mkHost {
+        hostName = "server";
       };
     };
   };

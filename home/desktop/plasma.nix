@@ -11,6 +11,10 @@
     overrideConfig = true; # ! destructive
   };
 
+  programs.plasma.configFile = {
+    plasmashellrc."PIMEventsPlugin".calendars = "6,23,24,25,26,27";
+  };
+
   # Powerdevil est le daemon batterie propre à Plasma, chaque bureau a le sien
   programs.plasma.powerdevil = {
     # Branché sur prise électrique
@@ -55,14 +59,6 @@
   programs.plasma.input.keyboard = {
     numlockOnStartup = "on";
   };
-
-  /*
-    programs.plasma.configFile."merkuro.calendarrc" = {
-      GlobalCollectionSelection = {
-        Selection = "c24,c27,c26,c25,c23,c6";
-      };
-    };
-  */
 
   programs.plasma.krunner = {
     position = "center";
@@ -112,6 +108,12 @@
     cursor = {
       size = 42;
     };
+
+    wallpaper = "/etc/wallpaper.jpg";
+    wallpaperFillMode = "preserveAspectFit";
+    wallpaperBackground = {
+      color = "0,0,0"; # format RGB
+    };
   };
 
   programs.plasma.panels = [
@@ -159,6 +161,7 @@
               "applications:dev.zed.Zed.desktop"
               "applications:beepertexts.desktop"
               "applications:Proton Authenticator.desktop"
+              "applications:antigravity-hub.desktop"
             ];
           };
         }
@@ -253,7 +256,22 @@
     };
   };
 
+  xdg.dataFile."plasma/plasmoids/org.alcapitan.borgstatus".source = ./plasmoids/org.alcapitan.borgstatus;
+
   programs.plasma.desktop.widgets = [
+    {
+      name = "org.alcapitan.borgstatus";
+      # Placé à droite sur 1920x1080 (marge 50px, largeur 400px, hauteur 960px au-dessus du panneau flottant)
+      position = {
+        horizontal = 1470;
+        vertical = 50;
+      };
+      size = {
+        width = 400;
+        height = 960;
+      };
+      screen = 0;
+    }
     {
       name = "org.kde.plasma.notes";
       position = {
@@ -274,15 +292,27 @@
         };
       };
     }
+    {
+      name = "org.kde.plasma.notes";
+      position = {
+        horizontal = 500;
+        vertical = 50;
+      };
+      size = {
+        width = 400;
+        height = 400;
+      };
+      screen = 0;
+      config = {
+        General = {
+          # * ls ~/.local/share/plasma_notes/
+          noteId = "work";
+          color = "yellow";
+          fontSize = 13;
+        };
+      };
+    }
   ];
-
-  programs.plasma.workspace = {
-    wallpaper = "/etc/wallpaper.jpg";
-    wallpaperFillMode = "preserveAspectFit";
-    wallpaperBackground = {
-      color = "0,0,0"; # format RGB
-    };
-  };
 
   home.packages = with pkgs.kdePackages; [
     kate
@@ -296,6 +326,7 @@
     kdepim-addons
     akonadi
     akonadi-calendar
+    akonadi-calendar-tools
     eventviews
     calendarsupport
     pimcommon

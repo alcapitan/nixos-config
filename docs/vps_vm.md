@@ -11,7 +11,7 @@ Ce guide explique comment compiler, lancer et réinitialiser localement la confi
 Générez le script d'exécution de la VM à partir de la configuration flake :
 
 ```bash
-nix build .#nixosConfigurations.vps.config.system.build.vm
+nix build .#nixosConfigurations.server.config.system.build.vm
 ```
 
 > Le résultat du build crée un lien symbolique `./result` contenant le lanceur QEMU.
@@ -23,15 +23,22 @@ Les caractéristiques de la machine virtuelle (capacités matérielles et adress
 Lancez le binaire généré :
 
 ```bash
-./result/bin/run-vps-vm
+./result/bin/run-server-vm
 ```
 
 > Pour lancer la VM en mode terminal sans fenêtre graphique :
 > ```bash
-> ./result/bin/run-vps-vm -nographic
+> ./result/bin/run-server-vm -nographic
 > ```
 >
-> Pour quitter QEMU en mode sans graphique : faites `Ctrl + A` puis `X`)
+> Pour quitter QEMU en mode sans graphique : faites `Ctrl + A` puis `X`
+>
+> Pour faire tourner la VM en tâche de fond via systemd user :
+> ```bash
+> systemd-run --user --unit=server-vm ./result/bin/run-server-vm -nographic
+> journalctl --user -u server-vm -f
+> systemctl --user stop server-vm
+> ```
 
 ## Première connexion & Mot de passe
 
@@ -43,12 +50,12 @@ passwd $USER
 
 ## Réinitialiser l'état de la VM
 
-QEMU stocke l'état persistant (disque, modifications, base de données) dans un fichier `vps.qcow2` généré dans le répertoire courant.
+QEMU stocke l'état persistant (disque, modifications, base de données) dans un fichier `server.qcow2` généré dans le répertoire courant.
 
 Pour repartir d'une machine totalement vierge :
 
 > ⚠️ Attention : supprime définitivement toutes les données modifiées dans la VM
 
 ```bash
-rm -f vps.qcow2
+rm -f server.qcow2
 ```
